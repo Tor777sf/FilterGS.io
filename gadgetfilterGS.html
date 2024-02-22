@@ -39,11 +39,32 @@ function descargarCSV() {
     complete: function (result) {
       // Los datos se encuentran en result.data
       // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
-      $('#dataTable').DataTable({
+      var dataTable = $('#dataTable').DataTable({
         data: result.data,
-        columns: Object.keys(result.data[0]).map(function (key) {
-          return { title: key, data: key };
-        })
+        columns: [
+          { title: 'Columna 1', data: 'Columna1' },  // Reemplaza 'Columna1' con el nombre real de la columna
+          { title: 'Columna 3', data: 'Columna3' },  // Reemplaza 'Columna3' con el nombre real de la columna
+          { title: 'Columna 4', data: 'Columna4' },  // Reemplaza 'Columna4' con el nombre real de la columna
+        ],
+        columnDefs: [
+          {
+            targets: [1],  // Índice de la columna que deseas ocultar (comienza desde 0)
+            visible: false,
+          },
+        ],
+        rowCallback: function (row, data) {
+          // Añade un evento clic a cada fila
+          $(row).on('click', function () {
+            // Remueve la clase de resaltado de todas las filas
+            dataTable.rows().nodes().to$().removeClass('selected');
+            
+            // Agrega la clase de resaltado a la fila clickeada
+            $(row).addClass('selected');
+            
+            console.log('Fila clickeada:', data);
+            // Puedes realizar acciones específicas al hacer clic en una fila
+          });
+        },
       });
     }
   });
@@ -54,6 +75,13 @@ $(document).ready(function () {
   descargarCSV();
 });
 </script>
+
+<style>
+  /* Define el estilo de resaltado para la clase 'selected' */
+  #dataTable tbody tr.selected {
+    background-color: #A2D3F6; /* Puedes cambiar el color según tus preferencias */
+  }
+</style>
 
 </body>
 </html>
