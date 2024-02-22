@@ -1,15 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gadget</title>
-  <style>
-    /* Estilos CSS según tus necesidades */
-  </style>
+  <title>Descargar y Mostrar Datos CSV</title>
+
+  <!-- PapaParse (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+  <!-- DataTables (CDN) -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 </head>
 <body>
-  <h2>Gadget Content</h2>
-  <p>Contenido del gadget protegido.</p>
+
+<!-- Contenedor de la Tabla -->
+<div>
+  <table id="dataTable" class="display"></table>
+</div>
+
+<!-- Script para Descargar, Analizar y Mostrar Datos -->
+<script>
+// Reemplaza 'ID_DE_TU_HOJA_DE_CÁLCULO' y 'NOMBRE_DE_TU_HOJA' con los valores adecuados
+var spreadsheetId = 'ID_DE_TU_HOJA_DE_CÁLCULO';
+var sheetName = 'NOMBRE_DE_TU_HOJA';
+
+// Función para Descargar y Mostrar Datos
+function descargarCSV() {
+  // Crea una URL de descarga para el archivo CSV
+  var downloadUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId +
+    '/gviz/tq?tqx=out:csv&sheet=' + sheetName;
+
+  // Analiza el archivo CSV y muestra los datos en una tabla
+  Papa.parse(downloadUrl, {
+    download: true,
+    header: true,
+    complete: function (result) {
+      // Los datos se encuentran en result.data
+      // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
+      $('#dataTable').DataTable({
+        data: result.data,
+        columns: Object.keys(result.data[0]).map(function (key) {
+          return { title: key, data: key };
+        })
+      });
+    }
+  });
+}
+
+// Llama a descargarCSV() automáticamente al cargar la página
+$(document).ready(function () {
+  descargarCSV();
+});
+</script>
+
 </body>
 </html>
