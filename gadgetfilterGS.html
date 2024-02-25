@@ -32,39 +32,24 @@ function descargarCSV() {
   var downloadUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId +
     '/gviz/tq?tqx=out:csv&sheet=' + sheetName;
 
+  // 5. Entrada de Datos
   // Analiza el archivo CSV y muestra los datos en una tabla
   Papa.parse(downloadUrl, {
     download: true,
     header: true,
     complete: function (result) {
+      // 6. Procesamiento
       // Los datos se encuentran en result.data
-      // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
-      var dataTable = $('#dataTable').DataTable({
+      // Excluye la columna B (índice 1) de las columnas a mostrar
+      var columnsToDisplay = result.meta.fields.filter(function (col) {
+        return col !== 'Columna2'; // Reemplaza 'Columna2' con el nombre real de la columna B
+      });
+// Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
+      $('#dataTable').DataTable({
         data: result.data,
-        columns: [
-          { title: 'Columna 2', data: 'Columna2' },  // Reemplaza 'Columna1' con el nombre real de la columna
-          { title: 'Columna 3', data: 'Columna3' },  // Reemplaza 'Columna3' con el nombre real de la columna
-          { title: 'Columna 4', data: 'Columna4' },  // Reemplaza 'Columna4' con el nombre real de la columna
-        ],
-        columnDefs: [
-          {
-            targets: [7],  // Índice de la columna que deseas ocultar (comienza desde 0)
-            visible: false,
-          },
-        ],
-        rowCallback: function (row, data) {
-          // Añade un evento clic a cada fila
-          $(row).on('click', function () {
-            // Remueve la clase de resaltado de todas las filas
-            dataTable.rows().nodes().to$().removeClass('selected');
-            
-            // Agrega la clase de resaltado a la fila clickeada
-            $(row).addClass('selected');
-            
-            console.log('Fila clickeada:', data);
-            // Puedes realizar acciones específicas al hacer clic en una fila
-          });
-        },
+        columns: columnsToDisplay.map(function (col) {
+          return { title: col, data: col };
+        }),
       });
     }
   });
