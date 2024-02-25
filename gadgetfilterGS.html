@@ -42,7 +42,7 @@ function descargarCSV() {
       // Los datos se encuentran en result.data
       // Excluye la columna B (índice 1) de las columnas a mostrar
       var columnsToDisplay = result.meta.fields.filter(function (col) {
-        return col !== 'D'; // Reemplaza 'Columna2' con el nombre real de la columna B
+        return col !== '4'; // Reemplaza 'Columna2' con el nombre real de la columna B
       });
 // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
       $('#dataTable').DataTable({
