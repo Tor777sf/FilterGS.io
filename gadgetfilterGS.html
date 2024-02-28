@@ -36,7 +36,7 @@ function descargarCSV() {
 // Analiza el archivo CSV y muestra los datos en una tabla
 Papa.parse(downloadUrl, {
   download: true,
-  header: false,
+  header: true,
   complete: function (result) {
     // 6. Procesamiento
     // Los datos se encuentran en result.data
