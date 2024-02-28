@@ -41,7 +41,7 @@ Papa.parse(downloadUrl, {
     // 6. Procesamiento
     // Los datos se encuentran en result.data
     // Excluye la columna B (índice 1) de las columnas a mostrar
-    var columnsToDisplay = Array.from({ length: result.data[3].length }, (_, index) => index);
+    var columnsToDisplay = Array.from({ length: result.data[2].length }, (_, index) => index);
     var columnToHide = 4; // Índice de la columna a ocultar
 
     // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
