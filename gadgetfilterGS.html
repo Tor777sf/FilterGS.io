@@ -36,19 +36,19 @@ function descargarCSV() {
   // Analiza el archivo CSV y muestra los datos en una tabla
   Papa.parse(downloadUrl, {
     download: true,
-    header: true,
+    header: false,
     complete: function (result) {
       // 6. Procesamiento
       // Los datos se encuentran en result.data
       // Excluye la columna B (índice 1) de las columnas a mostrar
-      var columnsToDisplay = result.meta.fields.filter(function (col) {
-        return col !== 'E:E'; // Reemplaza 'Columna2' con el nombre real de la columna B
-      });
+      var columnsToDisplay = Array.from({ length: result.data[2].length }, (_, index) => index);
+      var columnToHide = 4; // Índice de la columna a ocultar
+        });
 // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
       $('#dataTable').DataTable({
-        data: result.data,
-        columns: columnsToDisplay.map(function (col) {
-          return { title: col, data: col };
+        columns: columnsToDisplay.map(function (_, index) {
+    return { title: 'Columna ' + (index + 1), data: index };
+  
         }),
       });
     }
