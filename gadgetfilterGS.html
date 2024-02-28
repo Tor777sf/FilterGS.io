@@ -32,26 +32,27 @@ function descargarCSV() {
   var downloadUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId +
     '/gviz/tq?tqx=out:csv&sheet=' + sheetName;
 
-  // 5. Entrada de Datos
-  // Analiza el archivo CSV y muestra los datos en una tabla
-  Papa.parse(downloadUrl, {
-    download: true,
-    header: false,
-    complete: function (result) {
-      // 6. Procesamiento
-      // Los datos se encuentran en result.data
-      // Excluye la columna B (índice 1) de las columnas a mostrar
-      var columnsToDisplay = Array.from({ length: result.data[3].length }, (_, index) => index);
-      var columnToHide = 4; // Índice de la columna a ocultar
-        });
-// Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
-      $('#dataTable').DataTable({
-        columns: columnsToDisplay.map(function (_, index) {
-    return { title: 'Columna ' + (index + 1), data: index };
-  
-        }),
-      });
-    }
+// 5. Entrada de Datos
+// Analiza el archivo CSV y muestra los datos en una tabla
+Papa.parse(downloadUrl, {
+  download: true,
+  header: false,
+  complete: function (result) {
+    // 6. Procesamiento
+    // Los datos se encuentran en result.data
+    // Excluye la columna B (índice 1) de las columnas a mostrar
+    var columnsToDisplay = Array.from({ length: result.data[3].length }, (_, index) => index);
+    var columnToHide = 4; // Índice de la columna a ocultar
+
+    // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
+    $('#dataTable').DataTable({
+      columns: columnsToDisplay.map(function (_, index) {
+        return { title: 'Columna ' + (index + 1), data: index };
+      }),
+    });
+  }
+});
+
   });
 }
 
