@@ -54,6 +54,13 @@ function descargarCSV() {
         targets: [12], // Índice de la columna a ocultar (comienza desde 0)
         visible: false
           }]
+        createdRow: function (row, data, dataIndex) {
+        var imagePath = data[12]; // Ruta de la imagen desde la columna oculta
+        var imageTag = '<img src="' + imagePath + '" alt="Imagen">';
+
+        // Añade la imagen al enlace en la primera columna visible
+        $('td:eq(0)', row).html('<a href="' + imagePath + '">' + imageTag + '</a>');
+        }
       });
     }
   });
