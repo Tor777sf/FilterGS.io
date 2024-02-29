@@ -50,6 +50,9 @@ function descargarCSV() {
         columns: columnsToDisplay.map(function (col) {
           return { title: col, data: col };
         }),
+        columnDefs: [{
+        targets: [4], // Índice de la columna a ocultar (comienza desde 0)
+        visible: false
       });
     }
   });
