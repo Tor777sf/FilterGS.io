@@ -42,7 +42,7 @@ function descargarCSV() {
       // Los datos se encuentran en result.data
       // Excluye la columna B (índice 1) de las columnas a mostrar
       var columnsToDisplay = result.meta.fields.filter(function (col) {
-        return col !== 'M'; // Reemplaza 'Columna2' con el nombre real de la columna B
+        return col !== 'E'; // Reemplaza 'Columna2' con el nombre real de la columna B
       });
 // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
       $('#dataTable').DataTable({
@@ -51,7 +51,7 @@ function descargarCSV() {
           return { title: col, data: col };
         });
         columnDefs: [{
-        targets: [12], // Índice de la columna a ocultar (comienza desde 0)
+        targets: [4], // Índice de la columna a ocultar (comienza desde 0)
         visible: false
           }]
         ///createdRow: function (row, data, dataIndex) {
