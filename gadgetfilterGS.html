@@ -54,15 +54,15 @@ function descargarCSV() {
         targets: [4], // Índice de la columna a ocultar (comienza desde 0)
         visible: false
           }];
-        createdRow: function (row, data, dataIndex) {
+        ///createdRow: function (row, data, dataIndex) {
         // 'data' es la fila de datos
-        var imageUrl = data[4]; // Cambia el índice según la ubicación de las URL de las imágenes en tus datos
+     ///   var imageUrl = data[4]; // Cambia el índice según la ubicación de las URL de las imágenes en tus datos
 
         // Añade la imagen como un elemento HTML en la primera celda de cada fila
-        $('td:eq(0)', row).html('<img src="' + imageUrl + '" alt="Imagen">');
-         }
-         });
-        }
+      ///  $('td:eq(0)', row).html('<img src="' + imageUrl + '" alt="Imagen">');
+        /// }
+     });
+    }
   });
 }
 
