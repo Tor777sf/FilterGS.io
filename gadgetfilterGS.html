@@ -45,23 +45,49 @@ function descargarCSV() {
         return col !== 'M'; // Reemplaza 'Columna2' con el nombre real de la columna B
       });
 // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
-      $('#dataTable').DataTable({
-        data: result.data,
-        columns: columnsToDisplay.map(function (col) {
-          return { title: col, data: col };
-        }),
-        columnDefs: [{
-        targets: [12], // Índice de la columna a ocultar (comienza desde 0)
-        visible: false
-          }],
-        createdRow: function (row, data, dataIndex) {
-        var imagePath = data[12]; // Ruta de la imagen desde la columna oculta
-        var imageTag = '<img src="' + imagePath + '" alt="Imagen">';
+  /////////////////////////   
+$('#dataTable').DataTable({
+  data: result.data,
+  columns: columnsToDisplay.map(function (col) {
+    return { title: col, data: col };
+  }),
+  columnDefs: [{
+    targets: [12], // Índice de la columna a ocultar (comienza desde 0)
+    visible: false
+  }],
+  createdRow: function (row, data, dataIndex) {
+    var imageLink = data[12]; // Enlace a la imagen desde la columna oculta
+    var imageTag;
 
-        // Añade la imagen al enlace en la primera columna visible
-        $('td:eq(0)', row).html('<a href="' + imagePath + '">' + imageTag + '</a>');
-        }
-      });
+    if (imageLink) {
+      // Obtener miniatura de la imagen (asumiendo que el enlace directo apunta a la imagen)
+      var thumbnailLink = obtenerMiniatura(imageLink);
+
+      // Mostrar un enlace con la miniatura y permitir la ampliación al hacer clic
+      imageTag = '<a href="' + imageLink + '" target="_blank"><img src="' + thumbnailLink + '" alt="Miniatura de Imagen"></a>';
+    } else {
+      // Si no hay un enlace, mostrar un mensaje indicando que la imagen no está disponible
+      imageTag = 'Enlace no disponible';
+    }
+
+    // Añadir la imagen o mensaje al enlace en la primera columna visible
+    $('td:eq(0)', row).html(imageTag);
+  }
+});
+
+// Agregar evento de clic para ampliar la imagen
+$('#dataTable').on('click', 'a[href^="http"]', function () {
+  window.open($(this).attr('href'), '_blank');
+  return false;
+});
+
+// Función para obtener la miniatura de la imagen (puedes ajustar según tus necesidades)
+function obtenerMiniatura(imagenLink) {
+  // Lógica para obtener la miniatura, por ejemplo, si la imagen es 'imagen.jpg', la miniatura podría ser 'imagen_thumbnail.jpg'
+  return imagenLink.replace(/\.([a-z]+)$/i, '_thumbnail.$1');
+}
+
+      ////////////////////////
     }
   });
 }
