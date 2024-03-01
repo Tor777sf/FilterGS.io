@@ -51,27 +51,20 @@ $('#dataTable').DataTable({
   columns: columnsToDisplay.map(function (col) {
     return { title: col, data: col };
   }),
-  columnDefs: [{
-    targets: [12], // Índice de la columna a ocultar (comienza desde 0)
-    visible: false
-  }],
   createdRow: function (row, data, dataIndex) {
     var imageLink = data[12]; // Enlace a la imagen desde la columna oculta
-    var imageTag;
+    var linkTag;
 
     if (imageLink) {
-      // Obtener miniatura de la imagen (asumiendo que el enlace directo apunta a la imagen)
-      var thumbnailLink = obtenerMiniatura(imageLink);
-
-      // Mostrar un enlace con la miniatura y permitir la ampliación al hacer clic
-      imageTag = '<a href="' + imageLink + '" target="_blank"><img src="' + thumbnailLink + '" alt="Miniatura de Imagen"></a>';
+      // Si no está vacío, mostrar el enlace tal como está
+      linkTag = '<a href="' + imageLink + '" target="_blank">' + imageLink + '</a>';
     } else {
-      // Si no hay un enlace, mostrar un mensaje indicando que la imagen no está disponible
-      imageTag = 'Enlace no disponible';
+      // Si está vacío, mostrar "Enlace no disponible"
+      linkTag = 'Enlace no disponible';
     }
 
-    // Añadir la imagen o mensaje al enlace en la primera columna visible
-    $('td:eq(0)', row).html(imageTag);
+    // Añadir el enlace o mensaje al texto en la primera columna visible
+    $('td:eq(0)', row).html(linkTag);
   }
 });
 
@@ -80,12 +73,6 @@ $('#dataTable').on('click', 'a[href^="http"]', function () {
   window.open($(this).attr('href'), '_blank');
   return false;
 });
-
-// Función para obtener la miniatura de la imagen (puedes ajustar según tus necesidades)
-function obtenerMiniatura(imagenLink) {
-  // Lógica para obtener la miniatura, por ejemplo, si la imagen es 'imagen.jpg', la miniatura podría ser 'imagen_thumbnail.jpg'
-  return imagenLink.replace(/\.([a-z]+)$/i, '_thumbnail.$1');
-}
 
       ////////////////////////
     }
