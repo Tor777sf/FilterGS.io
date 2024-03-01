@@ -46,21 +46,18 @@ Papa.parse(downloadUrl, {
         return { title: col, data: col };
       }),
       createdRow: function (row, data, dataIndex) {
-        var content = data['ENLACES']; // Contenido de la columna 'M'
+        var content = data['12']; // Contenido de la columna 'M'
         var contentTag;
 
-        if (content) {
-          // Si la celda no está vacía, mostrar su contenido como enlace
-          contentTag = '<a href="' + content + '" target="_blank">' + content + '</a>';
-          $('td:eq(12)', row).html(contentTag);
-        } else {
-          // Si la celda está vacía, mostrar un mensaje indicando que el enlace no está disponible
-          contentTag = 'Enlace no disponible';
-          $('td:eq(12)', row).html(contentTag);
-        }
-
+        if (content !== undefined && content.trim() !== '') {
+        // Si la celda no está vacía, mostrar su contenido como enlace
+        contentTag = '<a href="' + content + '" target="_blank">' + content + '</a>';
+       } else {
+        // Si la celda está vacía, mostrar un mensaje indicando que el enlace no está disponible
+         contentTag = 'Enlace no disponible';
+       }
         // Añadir el contenido o mensaje al texto en la columna 12 visible
-       /// $('td:eq(12)', row).html(contentTag);
+        $('td:eq(12)', row).html(contentTag);
       }
     });
 
