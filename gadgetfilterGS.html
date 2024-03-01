@@ -42,7 +42,7 @@ function descargarCSV() {
       // Los datos se encuentran en result.data
       // Excluye la columna B (índice 1) de las columnas a mostrar
       var columnsToDisplay = result.meta.fields.filter(function (col) {
-        return col !== 'M'; // Reemplaza 'Columna2' con el nombre real de la columna B
+        ///return col !== 'M'; // Reemplaza 'Columna2' con el nombre real de la columna B
       });
 // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
   /////////////////////////   
@@ -64,7 +64,7 @@ $('#dataTable').DataTable({
     }
 
     // Añadir el enlace o mensaje al texto en la primera columna visible
-    $('td:eq(0)', row).html(linkTag);
+    $('td:eq(12)', row).html(linkTag);
   }
 });
 
