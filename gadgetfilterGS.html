@@ -46,7 +46,7 @@ Papa.parse(downloadUrl, {
         return { title: col, data: col };
       }),
       createdRow: function (row, data, dataIndex) {
-        var content = data['12']; // Contenido de la columna 'M'
+        var content = data['ENLACES']; // Contenido de la columna 'M'
         var contentTag;
 
         if (content) {
