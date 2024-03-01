@@ -34,49 +34,43 @@ function descargarCSV() {
 
   // 5. Entrada de Datos
   // Analiza el archivo CSV y muestra los datos en una tabla
+  //::::::::::::::::::::
   Papa.parse(downloadUrl, {
-    download: true,
-    header: true,
-    complete: function (result) {
-      // 6. Procesamiento
-      // Los datos se encuentran en result.data
-      // Excluye la columna B (índice 1) de las columnas a mostrar
-      var columnsToDisplay = result.meta.fields.filter(function (col) {
-        ///return col !== 'M'; // Reemplaza 'Columna2' con el nombre real de la columna B
-      });
-// Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
-  /////////////////////////   
-$('#dataTable').DataTable({
-  data: result.data,
-  columns: columnsToDisplay.map(function (col) {
-    return { title: col, data: col };
-  }),
-  createdRow: function (row, data, dataIndex) {
-    var imageLink = data[12]; // Enlace a la imagen desde la columna oculta
-    var linkTag;
+  download: true,
+  header: true,
+  complete: function (result) {
+    // Utiliza DataTables para mostrar y agregar la funcionalidad de búsqueda
+    $('#dataTable').DataTable({
+      data: result.data,
+      columns: result.meta.fields.map(function (col) {
+        return { title: col, data: col };
+      }),
+      createdRow: function (row, data, dataIndex) {
+        var imageLink = data['M']; // Enlace a la imagen desde la columna oculta
+        var linkTag;
 
-    if (imageLink) {
-      // Si no está vacío, mostrar el enlace tal como está
-      linkTag = '<a href="' + imageLink + '" target="_blank">' + imageLink + '</a>';
-    } else {
-      // Si está vacío, mostrar "Enlace no disponible"
-      linkTag = 'Enlace no disponible';
-    }
+        if (imageLink) {
+          // Si no está vacío, mostrar el enlace tal como está
+          linkTag = '<a href="' + imageLink + '" target="_blank">' + imageLink + '</a>';
+        } else {
+          // Si está vacío, mostrar "Enlace no disponible"
+          linkTag = 'Enlace no disponible';
+        }
 
-    // Añadir el enlace o mensaje al texto en la primera columna visible
-    $('td:eq(12)', row).html(linkTag);
+        // Añadir el enlace o mensaje al texto en la columna 12 visible
+        $('td:eq(12)', row).html(linkTag);
+      }
+    });
+
+    // Agregar evento de clic para ampliar la imagen
+    $('#dataTable').on('click', 'a[href^="http"]', function () {
+      window.open($(this).attr('href'), '_blank');
+      return false;
+    });
   }
 });
 
-// Agregar evento de clic para ampliar la imagen
-$('#dataTable').on('click', 'a[href^="http"]', function () {
-  window.open($(this).attr('href'), '_blank');
-  return false;
-});
-
-      ////////////////////////
-    }
-  });
+  //::::::::::::::::::: 
 }
 
 // Llama a descargarCSV() automáticamente al cargar la página
