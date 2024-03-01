@@ -56,15 +56,22 @@ $('#dataTable').DataTable({
     visible: false
   }],
   createdRow: function (row, data, dataIndex) {
-    var linkText = data[12]; // Enlace a la imagen desde la columna oculta
+    var imageLink = data[12]; // Enlace a la imagen desde la columna oculta
+    var imageTag;
 
-    if (linkText) {
-      // Convertir el enlace en texto plano a un enlace HTML y mostrar miniatura
-      var linkWithThumbnail = '<a href="' + linkText + '" target="_blank"><img src="' + obtenerMiniatura(linkText) + '" alt="Miniatura de Imagen"></a>';
+    if (imageLink) {
+      // Obtener miniatura de la imagen (asumiendo que el enlace directo apunta a la imagen)
+      var thumbnailLink = obtenerMiniatura(imageLink);
 
-      // Añadir el enlace con miniatura al texto en la primera columna visible
-      $('td:eq(0)', row).html(linkWithThumbnail);
+      // Mostrar un enlace con la miniatura y permitir la ampliación al hacer clic
+      imageTag = '<a href="' + imageLink + '" target="_blank"><img src="' + thumbnailLink + '" alt="Miniatura de Imagen"></a>';
+    } else {
+      // Si no hay un enlace, mostrar un mensaje indicando que la imagen no está disponible
+      imageTag = 'Enlace no disponible';
     }
+
+    // Añadir la imagen o mensaje al enlace en la primera columna visible
+    $('td:eq(0)', row).html(imageTag);
   }
 });
 
@@ -79,7 +86,6 @@ function obtenerMiniatura(imagenLink) {
   // Lógica para obtener la miniatura, por ejemplo, si la imagen es 'imagen.jpg', la miniatura podría ser 'imagen_thumbnail.jpg'
   return imagenLink.replace(/\.([a-z]+)$/i, '_thumbnail.$1');
 }
-
 
       ////////////////////////
     }
