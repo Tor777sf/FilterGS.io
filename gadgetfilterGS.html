@@ -35,7 +35,7 @@ function descargarCSV() {
   // 5. Entrada de Datos
   // Analiza el archivo CSV y muestra los datos en una tabla
   //::::::::::::::::::::
-  Papa.parse(downloadUrl, {
+Papa.parse(downloadUrl, {
   download: true,
   header: true,
   complete: function (result) {
@@ -46,19 +46,19 @@ function descargarCSV() {
         return { title: col, data: col };
       }),
       createdRow: function (row, data, dataIndex) {
-        var imageLink = data['M']; // Enlace a la imagen desde la columna oculta
+        var imageLink = data['M']; // Enlace a la imagen desde la columna 'M'
         var linkTag;
 
-        if (imageLink) {
+        if (imageLink !== undefined) { // Verifica si el enlace está definido
           // Si no está vacío, mostrar el enlace tal como está
           linkTag = '<a href="' + imageLink + '" target="_blank">' + imageLink + '</a>';
         } else {
-          // Si está vacío, mostrar "Enlace no disponible"
+          // Si está vacío o indefinido, mostrar "Enlace no disponible"
           linkTag = 'Enlace no disponible';
         }
 
         // Añadir el enlace o mensaje al texto en la columna 12 visible
-        $('td:eq(12)', row).html(linkTag);
+        $('td:eq(11)', row).html(linkTag);
       }
     });
 
@@ -69,6 +69,7 @@ function descargarCSV() {
     });
   }
 });
+
 
   //::::::::::::::::::: 
 }
