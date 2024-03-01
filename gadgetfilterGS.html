@@ -46,19 +46,19 @@ Papa.parse(downloadUrl, {
         return { title: col, data: col };
       }),
       createdRow: function (row, data, dataIndex) {
-        var imageLink = data['M']; // Enlace a la imagen desde la columna 'M'
-        var linkTag;
+        var textOrLink = data['M']; // Contenido de la columna 'M'
+        var contentTag;
 
-        if (imageLink !== undefined) { // Verifica si el enlace está definido
-          // Si no está vacío, mostrar el enlace tal como está
-          linkTag = '<a href="' + imageLink + '" target="_blank">' + imageLink + '</a>';
+        if (textOrLink && textOrLink.startsWith('http')) {
+          // Si el contenido parece ser un enlace, mostrarlo como enlace
+          contentTag = '<a href="' + textOrLink + '" target="_blank">' + textOrLink + '</a>';
         } else {
-          // Si está vacío o indefinido, mostrar "Enlace no disponible"
-          linkTag = 'Enlace no disponible';
+          // Si no es un enlace o está vacío, mostrar el contenido tal como está
+          contentTag = textOrLink || 'Enlace no disponible';
         }
 
-        // Añadir el enlace o mensaje al texto en la columna 12 visible
-        $('td:eq(12)', row).html(linkTag);
+        // Añadir el contenido al texto en la columna 12 visible
+        $('td:eq(11)', row).html(contentTag);
       }
     });
 
