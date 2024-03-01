@@ -56,26 +56,27 @@ $('#dataTable').DataTable({
     visible: false
   }],
   createdRow: function (row, data, dataIndex) {
-    var imageLink = data[12]; // Enlace a la imagen desde la columna oculta
-    var imageTag;
+    var linkText = data[12]; // Enlace a la imagen desde la columna oculta
+    var imageTag = '';
 
-    if (imageLink) {
-      // Obtener miniatura de la imagen (asumiendo que el enlace directo apunta a la imagen)
-      var thumbnailLink = obtenerMiniatura(imageLink);
+    if (linkText) {
+      // Convertir el enlace en texto plano a un enlace HTML
+      var htmlLink = '<a href="' + linkText + '" target="_blank">' + linkText + '</a>';
+      
+      // Puedes agregar un ícono o miniatura aquí si es necesario
+      // var thumbnailLink = obtenerMiniatura(linkText);
+      // imageTag = '<img src="' + thumbnailLink + '" alt="Miniatura de Imagen">';
+      
+      // Agregar el enlace HTML al texto
+      var linkWithIcon = htmlLink + ' ' + imageTag;
 
-      // Mostrar un enlace con la miniatura y permitir la ampliación al hacer clic
-      imageTag = '<a href="' + imageLink + '" target="_blank"><img src="' + thumbnailLink + '" alt="Miniatura de Imagen"></a>';
-    } else {
-      // Si no hay un enlace, mostrar un mensaje indicando que la imagen no está disponible
-      imageTag = 'Enlace no disponible';
+      // Añadir el enlace al texto en la primera columna visible
+      $('td:eq(0)', row).html(linkWithIcon);
     }
-
-    // Añadir la imagen o mensaje al enlace en la primera columna visible
-    $('td:eq(0)', row).html(imageTag);
   }
 });
 
-// Agregar evento de clic para ampliar la imagen
+// Agregar evento de clic para ampliar la imagen (si es necesario)
 $('#dataTable').on('click', 'a[href^="http"]', function () {
   window.open($(this).attr('href'), '_blank');
   return false;
