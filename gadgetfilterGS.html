@@ -61,7 +61,8 @@ Papa.parse(downloadUrl, {
           //contentTag = 'Enlace no disponible';
        }
         // Añadir el contenido o mensaje al texto en la columna 12 visible
-        $('td:eq(11)', row).html(contentTag);
+      ///  $('td:eq(11)', row).html(contentTag);
+        data['L'] = contentTag;
       }
     });
 
