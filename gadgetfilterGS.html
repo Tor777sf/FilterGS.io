@@ -54,10 +54,14 @@ Papa.parse(downloadUrl, {
 
       if (content !== undefined && content.trim() !== '') {
         // Si la celda no está vacía, mostrar 'ssssss' o cualquier contenido que desees
-        contentTag = 'ssssss';
+       // contentTag = 'ssssss';
+        this.data()[result.meta.fields.indexOf('L')] = 'ssssss';
+
       } else {
         // Si la celda está vacía, mostrar 'nnnnnn' o cualquier contenido que desees
-        contentTag = 'nnnnnn';
+       // contentTag = 'nnnnnn';
+        this.data()[result.meta.fields.indexOf('L')] = 'nnnnnn';
+
       }
 
       // Modificar directamente el valor de la columna 'L'
