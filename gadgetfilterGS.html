@@ -47,6 +47,13 @@ Papa.parse(downloadUrl, {
       })
     });
 
+    
+dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+      
+  var contentIndex = 11; // Reemplaza 2 con el índice correcto de la columna 'L'
+
+  var content = this.data()[contentIndex];
+      
     // Modificar directamente el valor de la columna 'L' en la tabla después de la inicialización
     dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
       var content = this.data()[result.meta.fields.indexOf('L')]; // Contenido de la columna 'L'
