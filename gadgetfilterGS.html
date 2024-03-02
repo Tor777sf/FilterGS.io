@@ -49,7 +49,7 @@ Papa.parse(downloadUrl, {
         var content = data['L']; // Contenido de la columna 'M'
         var contentTag;
 
-        if (content !== undefined && content.trim() !== '') {
+        if (content.trim() !== '' && content !== undefined ) {
         // Si la celda no está vacía, mostrar su contenido como enlace
         contentTag = 'ssssss';
 
