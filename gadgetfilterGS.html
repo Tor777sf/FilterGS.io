@@ -56,7 +56,13 @@ Papa.parse(downloadUrl, {
       } else {
         this.data()[contentIndex] = 'nnnnnn';
       }
+
+      // Agrega invalidate para actualizar la tabla con los nuevos valores
+      dataTable.row(rowIdx).invalidate();
     });
+
+    // Después del bucle, redibujar la tabla
+    dataTable.draw();
 
     $('#dataTable').on('click', 'a[href^="http"]', function () {
       window.open($(this).attr('href'), '_blank');
