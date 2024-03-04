@@ -32,24 +32,18 @@
 
         // Mostrar encabezados dinámicamente
         headers.forEach(function (header) {
-          $('#headerRow').append('<th>' + header + '</th>');
+          $('#headerRow').append(`<th>${header}</th>`);
         });
 
-        // Reemplazar el contenido de la columna 2
+        // Reemplazar el contenido de la columna "ENLACES"
         results.data.forEach(function (row) {
-          if (row['ENLACES'] === '') {
-            row['ENLACES'] = 'nn'; // Si está vacía, reemplazar con 'nn'
-          } else {
-            row['ENLACES'] = 'ss'; // Si tiene datos, reemplazar con 'ss'
-          }
+          row['ENLACES'] = row['ENLACES'] ? 'ss' : 'nn'; // Si tiene datos, reemplazar con 'ss'; de lo contrario, con 'nn'
         });
 
         // Mostrar datos en la tabla
         $('#dataTable').DataTable({
           data: results.data,
-          columns: headers.map(function (header) {
-            return { data: header };
-          })
+          columns: headers.map(header => ({ data: header }))
         });
       }
     });
