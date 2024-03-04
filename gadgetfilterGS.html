@@ -53,16 +53,6 @@
         });
       }
     });
-
-    // Puedes agregar más bloques similares para cargar datos de otras hojas aquí
-    // Ejemplo para la segunda hoja (sheet 2)
-    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_PtC9gS6vY4PyFR5dAjXxWU7UiOYE/pub?output=csv&gid=123456789', {
-      download: true,
-      header: true,
-      complete: function (results) {
-        // Procesar y mostrar datos de la segunda hoja si es necesario
-      }
-    });
   });
 </script>
 
