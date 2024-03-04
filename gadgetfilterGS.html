@@ -53,11 +53,11 @@ Papa.parse(downloadUrl, {
         dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
           var content = this.data()[contentIndex];
 
-if (content !== undefined && content.trim() !== '') {
-      this.data(contentIndex, 'ssssss');
-    } else {
-      this.data(contentIndex, 'nnnnnn');
-    }
+          if (content !== undefined && content.trim() !== '') {
+            this.data()[contentIndex] = 'ssssss'; // Modificación realizada aquí
+          } else {
+            this.data()[contentIndex] = 'nnnnnn'; // Modificación realizada aquí
+          }
 
           // Agrega invalidate para actualizar la tabla con los nuevos valores
           dataTable.row(rowIdx).invalidate();
