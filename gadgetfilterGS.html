@@ -23,7 +23,12 @@
 <script>
   $(document).ready(function () {
     // Descargar y mostrar datos de Google Sheets (hoja 1)
-    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/pub?output=csv&gid=1', {
+   // Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/pub?output=csv&gid=1', {
+    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/gviz/tq?tqx=out:csv&sheet='Hoja 1';
+', {
+    
+     // https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/gviz/tq?tqx=out:csv&sheet='Hoja 1';
+      
       download: true,
       header: true,
       complete: function (results) {
