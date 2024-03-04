@@ -35,15 +35,15 @@
           $('#headerRow').append(`<th>${header}</th>`);
         });
 
-        // Reemplazar el contenido de la columna "ENLACES"
-        results.data.forEach(function (row) {
-          row['ENLACES'] = row['ENLACES'] ? 'ss' : 'nn'; // Si tiene datos, reemplazar con 'ss'; de lo contrario, con 'nn'
+        // Reemplazar el contenido de la columna "ENLACES" con el número del índice
+        results.data.forEach(function (row, index) {
+          row['2'] = index + 1; // El índice comienza desde 0, sumamos 1 para obtener el número del índice
         });
 
         // Mostrar datos en la tabla
         $('#dataTable').DataTable({
           data: results.data,
-          columns: headers.map(header => ({ data: header }))
+          columns: headers.map((header, index) => ({ data: index }))
         });
       }
     });
