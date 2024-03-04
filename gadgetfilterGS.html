@@ -2,92 +2,69 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Descargar y Mostrar Datos CSV</title>
-
-  <!-- PapaParse (CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
-  <!-- DataTables (CDN) -->
+  <title>Google Sheets to HTML</title>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 </head>
 <body>
 
-<!-- Contenedor de la Tabla -->
-<div>
-  <table id="dataTable" class="display"></table>
-</div>
+<!-- Tabla para mostrar datos de la hoja de Google Sheets -->
+<table id="dataTable" border="1">
+  <thead>
+    <!-- Encabezados dinámicos según las columnas de la hoja de Google Sheets -->
+    <tr id="headerRow"></tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
-<!-- Script para Descargar, Analizar y Mostrar Datos -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
 <script>
-// Reemplaza 'ID_DE_TU_HOJA_DE_CÁLCULO' y 'NOMBRE_DE_TU_HOJA' con los valores adecuados
-var spreadsheetId = '1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE';
-var sheetName = 'Hoja 1';
+  $(document).ready(function () {
+    // Descargar y mostrar datos de Google Sheets (hoja 1)
+    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/pub?output=csv&gid=1', {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // Obtener encabezados de columnas
+        var headers = Object.keys(results.data[0]);
 
-// Función para Descargar y Mostrar Datos
-function descargarCSV() {
-  // Crea una URL de descarga para el archivo CSV
-  var downloadUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId +
-    '/gviz/tq?tqx=out:csv&sheet=' + sheetName;
-
-  // 5. Entrada de Datos
-  // Analiza el archivo CSV y muestra los datos en una tabla
-  //::::::::::::::::::::
-Papa.parse(downloadUrl, {
-  download: true,
-  header: true,
-  complete: function (result) {
-    var dataTable = $('#dataTable').DataTable({
-      data: result.data,
-      columns: result.meta.fields.map(function (col) {
-        return { title: col, data: col };
-      })
-    });
-
-    var contentIndex = 2; // Reemplaza 2 con el índice correcto de la columna 'L'
-
-    // Después de dibujar la tabla, realizar manipulaciones de datos
-      dataTable.on('draw', function () {
-        dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
-          var content = this.data()[contentIndex];
-
-if (content !== undefined && content.trim() !== '') {
-      this.data(contentIndex, 'ssssss');
-    } else {
-      this.data(contentIndex, 'nnnnnn');
-    }
-
-          // Agrega invalidate para actualizar la tabla con los nuevos valores
-          dataTable.row(rowIdx).invalidate();
+        // Mostrar encabezados dinámicamente
+        headers.forEach(function (header) {
+          $('#headerRow').append('<th>' + header + '</th>');
         });
-      });
 
-    
-    $('#dataTable').on('click', 'a[href^="http"]', function () {
-      window.open($(this).attr('href'), '_blank');
-      return false;
+        // Reemplazar el contenido de la columna 2
+        results.data.forEach(function (row) {
+          if (row['Columna 2'] === '') {
+            row['Columna 2'] = 'nn'; // Si está vacía, reemplazar con 'nn'
+          } else {
+            row['Columna 2'] = 'ss'; // Si tiene datos, reemplazar con 'ss'
+          }
+        });
+
+        // Mostrar datos en la tabla
+        $('#dataTable').DataTable({
+          data: results.data,
+          columns: headers.map(function (header) {
+            return { data: header };
+          })
+        });
+      }
     });
-  }
-});
 
-  
-  //::::::::::::::::::: 
-}
-
-// Llama a descargarCSV() automáticamente al cargar la página
-$(document).ready(function () {
-  descargarCSV();
-});
+    // Puedes agregar más bloques similares para cargar datos de otras hojas aquí
+    // Ejemplo para la segunda hoja (sheet 2)
+    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_PtC9gS6vY4PyFR5dAjXxWU7UiOYE/pub?output=csv&gid=123456789', {
+      download: true,
+      header: true,
+      complete: function (results) {
+        // Procesar y mostrar datos de la segunda hoja si es necesario
+      }
+    });
+  });
 </script>
-
-<style>
-  /* Define el estilo de resaltado para la clase 'selected' */
-  #dataTable tbody tr.selected {
-    background-color: #A2D3F6; /* Puedes cambiar el color según tus preferencias */
-  }
-</style>
 
 </body>
 </html>
