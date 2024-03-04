@@ -48,22 +48,23 @@ Papa.parse(downloadUrl, {
 
     var contentIndex = 2; // Reemplaza 2 con el índice correcto de la columna 'L'
 
-    dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
-      var content = this.data()[contentIndex];
+    // Después de dibujar la tabla, realizar manipulaciones de datos
+      dataTable.on('draw', function () {
+        dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+          var content = this.data()[contentIndex];
 
-      if (content !== undefined && content.trim() !== '') {
-        this.data()[contentIndex] = 'ssssss';
-      } else {
-        this.data()[contentIndex] = 'nnnnnn';
-      }
+          if (content !== undefined && content.trim() !== '') {
+            this.data()[contentIndex] = 'ssssss'; // Modificación realizada aquí
+          } else {
+            this.data()[contentIndex] = 'nnnnnn'; // Modificación realizada aquí
+          }
 
-      // Agrega invalidate para actualizar la tabla con los nuevos valores
-      dataTable.row(rowIdx).invalidate();
-    });
+          // Agrega invalidate para actualizar la tabla con los nuevos valores
+          dataTable.row(rowIdx).invalidate();
+        });
+      });
 
-    // Después del bucle, redibujar la tabla
-    dataTable.draw();
-
+    
     $('#dataTable').on('click', 'a[href^="http"]', function () {
       window.open($(this).attr('href'), '_blank');
       return false;
