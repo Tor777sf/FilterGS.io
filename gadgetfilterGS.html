@@ -1,96 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Descargar y Mostrar Datos CSV</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Dinámica desde Google Sheets</title>
 
-  <!-- PapaParse (CDN) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- DataTables (CDN) -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <!-- DataTables CSS y JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    <!-- Tabletop.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Tabletop.js/1.6.1/tabletop.min.js"></script>
 </head>
 <body>
 
-<!-- Contenedor de la Tabla -->
-<div>
-  <table id="dataTable" class="display"></table>
-</div>
-
-<!-- Script para Descargar, Analizar y Mostrar Datos -->
 <script>
-// Reemplaza 'ID_DE_TU_HOJA_DE_CÁLCULO' y 'NOMBRE_DE_TU_HOJA' con los valores adecuados
-var spreadsheetId = '1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE';
-var sheetName = 'Hoja 1';
+    $(document).ready(function () {
+        // Cargar la hoja de Google Sheets usando Tabletop.js
+        Tabletop.init({
+            key: 'https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/edit?usp=sharing',
+            sheet: 'Hoja1', // Nombre de la Hoja a cargar
+          
+            callback: function (data, tabletop) {
+                // Crear el contenedor para la tabla
+                $('body').append('<div id="tableContainer"><table id="myDataTable"></table></div>');
 
-// Función para Descargar y Mostrar Datos
-function descargarCSV() {
-  // Crea una URL de descarga para el archivo CSV
-  var downloadUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId +
-    '/gviz/tq?tqx=out:csv&sheet=' + sheetName;
-
-  // 5. Entrada de Datos
-  // Analiza el archivo CSV y muestra los datos en una tabla
-  //::::::::::::::::::::
-Papa.parse(downloadUrl, {
-  download: true,
-  header: true,
-  complete: function (result) {
-    var dataTable = $('#dataTable').DataTable({
-      data: result.data,
-      columns: result.meta.fields.map(function (col) {
-        return { title: col, data: col };
-      })
+                // Configuración de DataTables para cargar datos
+                $('#myDataTable').DataTable({
+                    data: data,
+                    columnDefs: [
+                        {
+                            targets: [12],
+                            render: function (data, type, row, meta) {
+                                // Supongamos que la columna contiene enlaces a imágenes
+                                // Ajustar el tamaño de la imagen y hacerla un enlace
+                                return '<a href="' + row.EnlaceDestino + '" target="_blank">' +
+                                       '<img src="' + data + '" alt="Imagen" style="width: 100px; height: auto;">' +
+                                       '</a>';
+                            }
+                        }
+                    ]
+                });
+            },
+            simpleSheet: true
+        });
     });
-
-var contentIndex = 2; // Reemplaza 2 con el índice correcto de la columna 'L'
-
-// Después de dibujar la tabla, realizar manipulaciones de datos
-dataTable.on('draw', function () {
-  var columnData = dataTable.column(contentIndex).data();
-
-  dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
-    var content = columnData[rowIdx];
-
-    if (content !== undefined && content.trim() !== '') {
-      columnData[rowIdx] = 'ssssss'; // Modificación realizada aquí
-    } else {
-      columnData[rowIdx] = 'nnnnnn'; // Modificación realizada aquí
-    }
-  });
-
-  // Agrega invalidate para actualizar la tabla con los nuevos valores
-  dataTable.rows().invalidate();
-  dataTable.draw();
-});
-
-    
-    $('#dataTable').on('click', 'a[href^="http"]', function () {
-      window.open($(this).attr('href'), '_blank');
-      return false;
-    });
-  }
-});
-
-  
-  //::::::::::::::::::: 
-}
-
-// Llama a descargarCSV() automáticamente al cargar la página
-$(document).ready(function () {
-  descargarCSV();
-});
 </script>
-
-<style>
-  /* Define el estilo de resaltado para la clase 'selected' */
-  #dataTable tbody tr.selected {
-    background-color: #A2D3F6; /* Puedes cambiar el color según tus preferencias */
-  }
-</style>
 
 </body>
 </html>
