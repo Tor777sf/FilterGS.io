@@ -1,54 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla Dinámica desde Google Sheets</title>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- DataTables CSS y JS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
-    <!-- Tabletop.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Tabletop.js/1.6.1/tabletop.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheet CSV</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
 
-<script>
-    $(document).ready(function () {
-        // Cargar la hoja de Google Sheets usando Tabletop.js
-        Tabletop.init({
-            key: 'https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/edit?usp=sharing',
-            sheet: 'Hoja1', // Nombre de la Hoja a cargar
-          
-            callback: function (data, tabletop) {
-                // Crear el contenedor para la tabla
-                $('body').append('<div id="tableContainer"><table id="myDataTable"></table></div>');
+<table id="myDataTable" class="display">
+  <!-- DataTable content will be dynamically generated here -->
+</table>
 
-                // Configuración de DataTables para cargar datos
-                $('#myDataTable').DataTable({
-                    data: data,
-                    columnDefs: [
-                        {
-                            targets: [12],
-                            render: function (data, type, row, meta) {
-                                // Supongamos que la columna contiene enlaces a imágenes
-                                // Ajustar el tamaño de la imagen y hacerla un enlace
-                                return '<a href="' + row.EnlaceDestino + '" target="_blank">' +
-                                       '<img src="' + data + '" alt="Imagen" style="width: 100px; height: auto;">' +
-                                       '</a>';
-                            }
-                        }
-                    ]
-                });
-            },
-            simpleSheet: true
+<script>
+  $(document).ready(function () {
+    // Descargar y parsear el archivo CSV
+    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      complete: function (results) {
+        // Crear DataTable
+        $('#myDataTable').DataTable({
+          data: results.data,
+          columns: [
+            // Definir las columnas según tus necesidades
+            { data: 'Columna1' },
+            { data: 'Columna2' },
+            // ...
+            {
+              data: 'Enlace',
+              render: function (data, type, row) {
+                // Personalizar renderizado para la columna con enlaces
+                return '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>';
+              }
+            }
+          ]
         });
+      }
     });
+  });
 </script>
 
 </body>
 </html>
+
