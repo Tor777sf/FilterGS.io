@@ -43,7 +43,7 @@
           }),
           columnDefs: [
             {
-              targets: 12, // Índice de la columna 'ENLACES'
+              targets: 10, // Índice de la columna 'ENLACES'
               render: function (data, type, row) {
                 // Personalizar renderizado para la columna con enlaces no vacíos
                 return data && data !== "" ? `<span class="shoppingItem">${data}</span>` : "";
@@ -56,7 +56,7 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt(`Ingrese la cantidad de ${item.ENLACES}:`, '1');
+          const cantidad = prompt(`Ingrese la cantidad de ${item.1}:`, '1');
           if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
@@ -71,7 +71,7 @@
   function addToShoppingList(item, cantidad) {
     const shoppingList = document.getElementById('shoppingList');
     const listItem = document.createElement('li');
-    listItem.innerHTML = `${item.ENLACES} - Cantidad: ${cantidad} - Precio: $${item.PRECIO * cantidad}`;
+    listItem.innerHTML = `${item.1} - Cantidad: ${cantidad} - Precio: $${item.9 * cantidad}`;
 
     // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
