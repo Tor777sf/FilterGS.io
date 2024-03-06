@@ -14,6 +14,7 @@
       cursor: pointer;
     }
   </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
 <body>
 
@@ -43,10 +44,18 @@
           }),
           columnDefs: [
             {
+              targets: 1, // Índice de la columna 'DESCRIPCION'
+              render: function (data, type, row) {
+                // Personalizar renderizado para la columna con enlaces no vacíos
+                return '<span class="shoppingItem">' + data + '</span>';
+              }
+            },
+            {
               targets: 10, // Índice de la columna 'ENLACES'
               render: function (data, type, row) {
                 // Personalizar renderizado para la columna con enlaces no vacíos
-                 return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";        }
+                return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
+              }
             }
           ]
         });
@@ -55,7 +64,7 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt(`Ingrese la cantidad de ${item.1}:`, '1');
+          const cantidad = prompt('Ingrese la cantidad de ' + item.DESCRIPCION + ':', '1');
           if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
@@ -70,7 +79,7 @@
   function addToShoppingList(item, cantidad) {
     const shoppingList = document.getElementById('shoppingList');
     const listItem = document.createElement('li');
-    listItem.innerHTML = `${item.1} - Cantidad: ${cantidad} - Precio: $${item.9 * cantidad}`;
+    listItem.innerHTML = item.DESCRIPCION + ' - Cantidad: ' + cantidad + ' - Precio: $' + (item.PRECIO * cantidad);
 
     // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
