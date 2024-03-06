@@ -76,15 +76,15 @@
   });
 
   // Función para agregar un elemento a la lista de compras
-  function addToShoppingList(item, cantidad) {
-    const shoppingList = document.getElementById('shoppingList');
-    const listItem = document.createElement('li');
-    listItem.innerHTML = item.DESCRIPCION + ' - Cantidad: ' + cantidad + ' - Precio: $' + (item.PRECIO * cantidad);
+function addToShoppingList(item, cantidad) {
+  const shoppingList = document.getElementById('shoppingList');
+  const listItem = document.createElement('li');
+  listItem.innerHTML = item[1] + ' - Cantidad: ' + cantidad + ' - Precio: $' + (item[9] * cantidad);
 
-    // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
+  // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
-    shoppingList.appendChild(listItem);
-  }
+  shoppingList.appendChild(listItem);
+}
 </script>
 
 </body>
