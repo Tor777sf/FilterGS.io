@@ -74,7 +74,7 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt(`Ingrese la cantidad de ${item.ENLACES}:`, '1');
+          const cantidad = prompt(`Ingrese la cantidad de ${item.10}:`, '1');
           if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
