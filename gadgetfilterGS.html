@@ -46,8 +46,7 @@
               targets: 10, // Índice de la columna 'ENLACES'
               render: function (data, type, row) {
                 // Personalizar renderizado para la columna con enlaces no vacíos
-                return data && data !== "" ? `<span class="shoppingItem">${data}</span>` : "";
-              }
+                 return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";        }
             }
           ]
         });
