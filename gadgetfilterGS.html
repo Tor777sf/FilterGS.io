@@ -14,7 +14,6 @@
       cursor: pointer;
     }
   </style>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
 <body>
 
@@ -44,25 +43,10 @@
           }),
           columnDefs: [
             {
-              targets: 1, // Índice de la columna 'DESCRIPCION'
-              render: function (data, type, row) {
-                // Personalizar renderizado para la columna con enlaces no vacíos
-                return '<span class="shoppingItem">' + data + '</span>';
-              }
-            },
-            {
-              targets: 9, // Índice de la columna 'PRECIO'
-              render: function (data, type, row) {
-                // Asegurar que el formato del precio sea correcto
-                return data ? '$' + data.toFixed(2) : '';
-              }
-            },
-            {
               targets: 10, // Índice de la columna 'ENLACES'
               render: function (data, type, row) {
                 // Personalizar renderizado para la columna con enlaces no vacíos
-                return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
-              }
+                 return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";        }
             }
           ]
         });
@@ -71,11 +55,11 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt(`Ingrese la cantidad de ${item[1]}:`, '1');
-          if (cantidad !== null && !isNaN(cantidad) && cantidad > 0 && cantidad <= 10) {
+          const cantidad = prompt(`Ingrese la cantidad de ${item.1}:`, '1');
+          if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
-            alert('Por favor, ingrese una cantidad válida (hasta 10 productos).');
+            alert('Por favor, ingrese una cantidad válida.');
           }
         });
       }
@@ -86,7 +70,7 @@
   function addToShoppingList(item, cantidad) {
     const shoppingList = document.getElementById('shoppingList');
     const listItem = document.createElement('li');
-    listItem.innerHTML = `${item[1]} - Cantidad: ${cantidad} - Precio: $${(item[9] * cantidad).toFixed(2)}`;
+    listItem.innerHTML = `${item.1} - Cantidad: ${cantidad} - Precio: $${item.9 * cantidad}`;
 
     // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
