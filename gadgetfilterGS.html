@@ -29,24 +29,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
 <script>
-  // Ejemplo de datos, puedes obtener estos datos de tu DataTable o cualquier fuente de datos.
-  const items = [
-    { nombre: 'Producto 1', precio: 10 },
-    { nombre: 'Producto 2', precio: 20 },
-    { nombre: 'Producto 3', precio: 15 }
-  ];
-
-  // Función para agregar un elemento a la lista de compras
-  function addToShoppingList(item, cantidad) {
-    const shoppingList = document.getElementById('shoppingList');
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `${item.nombre} - Cantidad: ${cantidad} - Precio: $${item.precio * cantidad}`;
-
-    // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
-
-    shoppingList.appendChild(listItem);
-  }
-
   // Crear DataTable
   $(document).ready(function () {
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
@@ -61,7 +43,7 @@
           }),
           columnDefs: [
             {
-              targets: 10, // Índice de la columna 'ENLACES'
+              targets: 12, // Índice de la columna 'ENLACES'
               render: function (data, type, row) {
                 // Personalizar renderizado para la columna con enlaces no vacíos
                 return data && data !== "" ? `<span class="shoppingItem">${data}</span>` : "";
@@ -74,7 +56,7 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt(`Ingrese la cantidad de ${item.10}:`, '1');
+          const cantidad = prompt(`Ingrese la cantidad de ${item.ENLACES}:`, '1');
           if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
@@ -84,6 +66,17 @@
       }
     });
   });
+
+  // Función para agregar un elemento a la lista de compras
+  function addToShoppingList(item, cantidad) {
+    const shoppingList = document.getElementById('shoppingList');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `${item.ENLACES} - Cantidad: ${cantidad} - Precio: $${item.PRECIO * cantidad}`;
+
+    // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
+
+    shoppingList.appendChild(listItem);
+  }
 </script>
 
 </body>
