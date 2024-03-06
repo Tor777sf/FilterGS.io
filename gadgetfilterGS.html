@@ -51,10 +51,10 @@
               }
             },
             {
-              targets: 10, // Índice de la columna 'ENLACES'
+              targets: 9, // Índice de la columna 'PRECIO'
               render: function (data, type, row) {
-                // Personalizar renderizado para la columna con enlaces no vacíos
-                return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
+                // Asegurar que el formato del precio sea correcto
+                return data ? '$' + data.toFixed(2) : '';
               }
             }
           ]
@@ -64,11 +64,11 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt('Ingrese la cantidad de ' + item.DESCRIPCION + ':', '1');
-          if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
+          const cantidad = prompt(`Ingrese la cantidad de ${item[1]}:`, '1');
+          if (cantidad !== null && !isNaN(cantidad) && cantidad > 0 && cantidad <= 10) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
-            alert('Por favor, ingrese una cantidad válida.');
+            alert('Por favor, ingrese una cantidad válida (hasta 10 productos).');
           }
         });
       }
@@ -76,15 +76,15 @@
   });
 
   // Función para agregar un elemento a la lista de compras
-function addToShoppingList(item, cantidad) {
-  const shoppingList = document.getElementById('shoppingList');
-  const listItem = document.createElement('li');
-  listItem.innerHTML = item[1] + ' - Cantidad: ' + cantidad + ' - Precio: $' + (item[9] * cantidad);
+  function addToShoppingList(item, cantidad) {
+    const shoppingList = document.getElementById('shoppingList');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `${item[1]} - Cantidad: ${cantidad} - Precio: $${(item[9] * cantidad).toFixed(2)}`;
 
-  // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
+    // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
-  shoppingList.appendChild(listItem);
-}
+    shoppingList.appendChild(listItem);
+  }
 </script>
 
 </body>
