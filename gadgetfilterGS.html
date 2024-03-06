@@ -26,25 +26,15 @@
         // Crear DataTable
         $('#myDataTable').DataTable({
           data: results.data,
-          columns: [
-            // Definir las columnas según tus necesidades
-            { data: 'CANT' },
-            { data: 'DESCRIPCION' },
-            { data: 'LARGO' },
-            { data: 'ANCHO' },
-            { data: 'pie' },
-            { data: 'PP' },
-            { data: 'G' },
-            { data: 'Precio Unitario' },
-            { data: 'SubTotal' },
-            { data: 'Total' },
-            
-            // ...
+          columns: Object.keys(results.data[0]).map(function(key) {
+            return { data: key, title: key };
+          }),
+          columnDefs: [
             {
-              data: 'ENLACES',
+              targets: 'ENLACES',
               render: function (data, type, row) {
-                // Personalizar renderizado para la columna con enlaces
-                return '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>';
+                // Personalizar renderizado para la columna con enlaces no vacíos
+                return data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
               }
             }
           ]
@@ -56,4 +46,3 @@
 
 </body>
 </html>
-
