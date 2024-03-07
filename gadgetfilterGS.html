@@ -70,9 +70,9 @@
         const tr = $(this).closest('tr');
         const row = dataTable.row(tr).data();
 
-        const cantidad = prompt('Ingrese la cantidad de ' + item['DESCRIPCION'] + ':', '1');
+        const cantidad = prompt('Ingrese la cantidad de ' + row['DESCRIPCION'] + ':', '1');
         if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
-        addToShoppingList(item, parseInt(cantidad, 10));
+        addToShoppingList(row, parseInt(cantidad, 10));
         } else {
         alert('Por favor, ingrese una cantidad válida.');
         }
@@ -87,10 +87,10 @@ function addToShoppingList(item, cantidad) {
   const shoppingList = document.getElementById('shoppingList');
   const listItem = document.createElement('li');
 
-  const descripcion = row['DESCRIPCION'] || 'Descripción no disponible';
+  const descripcion = item['DESCRIPCION'] || 'Descripción no disponible';
 
   // Verifica que el precio sea un número antes de calcular
-  const precio = typeof item[10] === 'number' ? item[9] : 0;
+  const precio = typeof item[9] === 'number' ? item[9] : 0;
   listItem.innerHTML = descripcion + ' - Cantidad: ' + cantidad + ' - Precio: $' + (precio * cantidad);
 
   // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
