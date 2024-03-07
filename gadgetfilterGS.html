@@ -30,20 +30,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
 <script>
-  // Inicializar DataTable
   $(document).ready(function () {
-    initializeDataTable();
-  });
-
-  // Inicializar la DataTable
-  function initializeDataTable() {
-    const dataTable = $('#myDataTable').DataTable();
+    // Inicializar DataTable
+    const dataTable = $('#myDataTable').DataTable({
+      // Configuraciones adicionales si es necesario
+    });
 
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
       download: true,
       header: true,
       dynamicTyping: true,
       complete: function (results) {
+        dataTable.clear().rows.add(results.data).draw();
+
         $('#myDataTable').DataTable({
           data: results.data,
           columns: Object.keys(results.data[0]).map(function (key) {
@@ -69,36 +68,36 @@
 
         // Agregar evento clic para agregar a la lista de compras
         $('#myDataTable').on('click', '.shoppingItem', function () {
-        const tr = $(this).closest('tr');
-        const row = dataTable.row(tr).data();
+          const tr = $(this).closest('tr');
+          const row = dataTable.row(tr).data();
 
-        const cantidad = prompt('Ingrese la cantidad de ' + row['DESCRIPCION'] + ':', '1');
-        if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
-        addToShoppingList(row, parseInt(cantidad, 10));
-        } else {
-        alert('Por favor, ingrese una cantidad válida.');
-        }
-       });
+          const cantidad = prompt('Ingrese la cantidad de ' + row['DESCRIPCION'] + ':', '1');
+          if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
+            addToShoppingList(row, parseInt(cantidad, 10));
+          } else {
+            alert('Por favor, ingrese una cantidad válida.');
+          }
+        });
 
       }
     });
-  }
 
-  // Función para agregar un elemento a la lista de compras
-function addToShoppingList(row, cantidad) {
-  const shoppingList = document.getElementById('shoppingList');
-  const listItem = document.createElement('li');
+    // Función para agregar un elemento a la lista de compras
+    function addToShoppingList(row, cantidad) {
+      const shoppingList = document.getElementById('shoppingList');
+      const listItem = document.createElement('li');
 
-  const descripcion = row['DESCRIPCION'] || 'Descripción no disponible';
+      const descripcion = row['DESCRIPCION'] || 'Descripción no disponible';
 
-  // Verifica que el precio sea un número antes de calcular
-  const precio = typeof row[9] === 'number' ? row[9] : 0;
-  listItem.innerHTML = descripcion + ' - Cantidad: ' + cantidad + ' - Precio: $' + (precio * cantidad);
+      // Verifica que el precio sea un número antes de calcular
+      const precio = typeof row[9] === 'number' ? row[9] : 0;
+      listItem.innerHTML = descripcion + ' - Cantidad: ' + cantidad + ' - Precio: $' + (precio * cantidad);
 
-  // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
+      // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
-  shoppingList.appendChild(listItem);
-}
+      shoppingList.appendChild(listItem);
+    }
+  });
 </script>
 
 </body>
