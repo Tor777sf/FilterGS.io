@@ -83,14 +83,14 @@
   }
 
   // Función para agregar un elemento a la lista de compras
-function addToShoppingList(item, cantidad) {
+function addToShoppingList(row, cantidad) {
   const shoppingList = document.getElementById('shoppingList');
   const listItem = document.createElement('li');
 
-  const descripcion = item['DESCRIPCION'] || 'Descripción no disponible';
+  const descripcion = row['DESCRIPCION'] || 'Descripción no disponible';
 
   // Verifica que el precio sea un número antes de calcular
-  const precio = typeof item[9] === 'number' ? item[9] : 0;
+  const precio = typeof row[9] === 'number' ? row[9] : 0;
   listItem.innerHTML = descripcion + ' - Cantidad: ' + cantidad + ' - Precio: $' + (precio * cantidad);
 
   // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
