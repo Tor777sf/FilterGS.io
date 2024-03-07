@@ -30,8 +30,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
 <script>
-  // Crear DataTable
+  // Inicializar DataTable
   $(document).ready(function () {
+    initializeDataTable();
+  });
+
+  // Inicializar la DataTable
+  function initializeDataTable() {
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
       download: true,
       header: true,
@@ -64,7 +69,7 @@
         $('#myDataTable').on('click', '.shoppingItem', function () {
           const itemIndex = $(this).closest('tr').index();
           const item = results.data[itemIndex];
-          const cantidad = prompt('Ingrese la cantidad de ' + item.DESCRIPCION + ':', '1');
+          const cantidad = prompt('Ingrese la cantidad de ' + item[1] + ':', '1');
           if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
@@ -73,18 +78,18 @@
         });
       }
     });
-  });
+  }
 
   // Función para agregar un elemento a la lista de compras
-function addToShoppingList(item, cantidad) {
-  const shoppingList = document.getElementById('shoppingList');
-  const listItem = document.createElement('li');
-  listItem.innerHTML = item[1] + ' - Cantidad: ' + cantidad + ' - Precio: $' + (item[9] * cantidad);
+  function addToShoppingList(item, cantidad) {
+    const shoppingList = document.getElementById('shoppingList');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = item[1] + ' - Cantidad: ' + cantidad + ' - Precio: $' + (item[10] * cantidad);
 
-  // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
+    // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
 
-  shoppingList.appendChild(listItem);
-}
+    shoppingList.appendChild(listItem);
+  }
 </script>
 
 </body>
