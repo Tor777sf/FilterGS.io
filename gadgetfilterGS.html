@@ -67,9 +67,10 @@
 
         // Agregar evento clic para agregar a la lista de compras
         $('#myDataTable').on('click', '.shoppingItem', function () {
-          const itemIndex = $(this).closest('tr').index();
-          const item = results.data[itemIndex];
-          const cantidad = prompt('Ingrese la cantidad de ' + item[1] + ':', '1');
+          const rowIndex = $(this).closest('tr').index();
+          const item = results.data[rowIndex];
+ 
+          const cantidad = prompt('Ingrese la cantidad de ' + item[DESCRIPCION] + ':', '1');
           if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
             addToShoppingList(item, parseInt(cantidad, 10));
           } else {
