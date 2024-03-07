@@ -32,9 +32,9 @@
 <script>
   $(document).ready(function () {
     // Inicializar DataTable
-   / //const dataTable = $('#myDataTable').DataTable({
+   const dataTable = $('#myDataTable').DataTable({
       // Configuraciones adicionales si es necesario
-   /// });
+    });
 
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
       download: true,
@@ -43,11 +43,11 @@
       complete: function (results) {
         dataTable.clear().rows.add(results.data).draw();
 
-        $('#myDataTable').DataTable({
-          data: results.data,
-          columns: Object.keys(results.data[0]).map(function (key) {
-            return { data: key, title: key };
-          }),
+       /// $('#myDataTable').DataTable({
+        ///  data: results.data,
+       ///   columns: Object.keys(results.data[0]).map(function (key) {
+         ///   return { data: key, title: key };
+      ///    }),
           columnDefs: [
             {
               targets: 1, // Índice de la columna 'DESCRIPCION'
