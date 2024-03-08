@@ -41,8 +41,13 @@
               }
             },
             // Nueva columna para el botón de agregar al carrito (Línea nueva)
-            { data: null, title: 'Acciones', defaultContent: '<button class="addToCartBtn">Agregar al carrito</button>' }
-          ]
+          {
+        targets: -1, // Última columna (Modificado)
+        render: function (data, type, row) {
+          // Personalizar renderizado para la columna con botón de agregar al carrito (Modificado)
+          return '<button class="addToCartBtn">Agregar al carrito</button>';
+        }
+
         });
 
         // Agregar evento de clic para el botón de agregar al carrito (Líneas nuevas)
