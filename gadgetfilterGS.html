@@ -50,8 +50,8 @@
           var data = $('#myDataTable').DataTable().row($(this).parents('tr')).data();
 
           // Extraer descripción y precio del ítem seleccionado
-          var descripcion = data['Columna_Descripcion'];
-          var precio = parseFloat(data['Columna_Precio']); // Convertir a número si es necesario
+          var descripcion = data[1];
+          var precio = parseFloat(data[9]); // Convertir a número si es necesario
 
           // Lógica para agregar el ítem a la lista de compra
           listaCompra.push({ descripcion: descripcion, precio: precio });
