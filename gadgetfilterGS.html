@@ -3,100 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Compras</title>
-  <style>
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
-  </style>
+  <title>Google Sheet CSV</title>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-
-<h2>Lista de Compras</h2>
-<ul id="shoppingList"></ul>
 
 <table id="myDataTable" class="display">
   <!-- DataTable content will be dynamically generated here -->
 </table>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
 <script>
   $(document).ready(function () {
-    // Inicializar DataTable
-   const dataTable = $('#myDataTable').DataTable({
-      // Configuraciones adicionales si es necesario
-    });
+    var listaCompra = []; // Array para almacenar elementos seleccionados
+    var totalCompra = 0; // Variable para almacenar el total de la compra
 
+    // Descargar y parsear el archivo CSV (Código original)
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
       download: true,
       header: true,
       dynamicTyping: true,
       complete: function (results) {
-        dataTable.clear().rows.add(results.data).draw();
-
-       /// $('#myDataTable').DataTable({
-        ///  data: results.data,
-       ///   columns: Object.keys(results.data[0]).map(function (key) {
-         ///   return { data: key, title: key };
-      ///    }),
+        // Crear DataTable (Código original)
+        $('#myDataTable').DataTable({
+          data: results.data,
+          columns: Object.keys(results.data[0]).map(function(key) {
+            return { data: key, title: key };
+          }),
           columnDefs: [
             {
-              targets: 1, // Índice de la columna 'DESCRIPCION'
+              targets: 10,
               render: function (data, type, row) {
-                // Personalizar renderizado para la columna con enlaces no vacíos
-                return '<span class="shoppingItem">' + data + '</span>';
-              }
-            },
-            {
-              targets: 10, // Índice de la columna 'ENLACES'
-              render: function (data, type, row) {
-                // Personalizar renderizado para la columna con enlaces no vacíos
+                // Personalizar renderizado para la columna con enlaces no vacíos (Código original)
                 return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
               }
-            }
+            },
+            // Nueva columna para el botón de agregar al carrito (Línea nueva)
+            { data: null, title: 'Acciones', defaultContent: '<button class="addToCartBtn">Agregar al carrito</button>' }
           ]
         });
 
-        // Agregar evento clic para agregar a la lista de compras
-        $('#myDataTable').on('click', '.shoppingItem', function () {
-          const tr = $(this).closest('tr');
-          const row = dataTable.row(tr).data();
+        // Agregar evento de clic para el botón de agregar al carrito (Líneas nuevas)
+        $('#myDataTable tbody').on('click', '.addToCartBtn', function () {
+          var data = $('#myDataTable').DataTable().row($(this).parents('tr')).data();
 
-          const cantidad = prompt('Ingrese la cantidad de ' + row['DESCRIPCION'] + ':', '1');
-          if (cantidad !== null && !isNaN(cantidad) && cantidad > 0) {
-            addToShoppingList(row, parseInt(cantidad, 10));
-          } else {
-            alert('Por favor, ingrese una cantidad válida.');
-          }
+          // Extraer descripción y precio del ítem seleccionado
+          var descripcion = data['Columna_Descripcion'];
+          var precio = parseFloat(data['Columna_Precio']); // Convertir a número si es necesario
+
+          // Lógica para agregar el ítem a la lista de compra
+          listaCompra.push({ descripcion: descripcion, precio: precio });
+
+          // Actualizar el total de la compra
+          totalCompra += precio;
+
+          // Puedes mostrar o actualizar el total en algún lugar de tu interfaz
+          // Ejemplo: $('#totalCompra').text('Total: ' + totalCompra.toFixed(2));
         });
-
       }
     });
-
-    // Función para agregar un elemento a la lista de compras
-    function addToShoppingList(row, cantidad) {
-      const shoppingList = document.getElementById('shoppingList');
-      const listItem = document.createElement('li');
-
-      const descripcion = row['DESCRIPCION'] || 'Descripción no disponible';
-
-      // Verifica que el precio sea un número antes de calcular
-      const precio = typeof row[9] === 'number' ? row[9] : 0;
-      listItem.innerHTML = descripcion + ' - Cantidad: ' + cantidad + ' - Precio: $' + (precio * cantidad);
-
-      // Puedes agregar más lógica aquí para permitir la modificación de la cantidad.
-
-      shoppingList.appendChild(listItem);
-    }
   });
 </script>
 
