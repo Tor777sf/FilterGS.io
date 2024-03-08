@@ -15,19 +15,25 @@
   <!-- DataTable content will be dynamically generated here -->
 </table>
 
+<!-- Nueva sección para la lista de compra -->
+<div id="shoppingList">
+  <h2>Lista de Compra</h2>
+  <ul id="shoppingItems">
+    <!-- Los ítems de la lista de compra se agregarán aquí dinámicamente -->
+  </ul>
+  <p>Total de Compra: <span id="totalPurchase">$0.00</span></p>
+</div>
+
 <script>
   $(document).ready(function () {
-    var listaCompra = []; // Array para almacenar elementos seleccionados
-    var totalCompra = 0; // Variable para almacenar el total de la compra
-
-    // Descargar y parsear el archivo CSV (Código original)
+    // Descargar y parsear el archivo CSV
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
       download: true,
       header: true,
       dynamicTyping: true,
       complete: function (results) {
-        // Crear DataTable (Código original)
-        $('#myDataTable').DataTable({
+        // Crear DataTable
+        var dataTable = $('#myDataTable').DataTable({
           data: results.data,
           columns: Object.keys(results.data[0]).map(function(key) {
             return { data: key, title: key };
@@ -36,37 +42,61 @@
             {
               targets: 10,
               render: function (data, type, row) {
-                // Personalizar renderizado para la columna con enlaces no vacíos (Código original)
+                // Personalizar renderizado para la columna con enlaces no vacíos
                 return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
               }
-            },
-            // Nueva columna para el botón de agregar al carrito (Línea nueva)
-          {
-        targets: -1, // Última columna (Modificado)
-        render: function (data, type, row) {
-          // Personalizar renderizado para la columna con botón de agregar al carrito (Modificado)
-          return '<button class="addToCartBtn">Agregar al carrito</button>';
+            }
+          ]
+        });
+
+        // Nueva lista de compra
+        var shoppingList = [];
+        var totalPurchase = 0;
+
+        // Agregar evento clic para generar lista de compra
+        $('#myDataTable tbody').on('click', 'tr', function () {
+          var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
+          
+          // Pedir al usuario ingresar la cantidad
+          var quantity = prompt('Ingrese la cantidad para "' + data.producto + '":', 1);
+
+          if (quantity !== null && !isNaN(quantity) && quantity > 0) {
+            // Calcular el total por producto y por línea
+            var totalItem = parseFloat(data.precio) * parseInt(quantity);
+            totalPurchase += totalItem;
+
+            // Agregar a la lista de compra y mostrar el total
+            shoppingList.push({
+              producto: data.producto,
+              cantidad: quantity,
+              total: totalItem.toFixed(2)
+            });
+
+            // Actualizar la lista de compra y el total global en la interfaz
+            updateShoppingList();
+          } else {
+            alert('Cantidad no válida. Intente de nuevo.');
+          }
+        });
+
+        // Función para actualizar la lista de compra en la interfaz
+        function updateShoppingList() {
+          var shoppingItems = $('#shoppingItems');
+          var totalPurchaseElement = $('#totalPurchase');
+
+          // Limpiar lista de compra
+          shoppingItems.empty();
+
+          // Construir y agregar nuevos elementos a la lista de compra
+          for (var i = 0; i < shoppingList.length; i++) {
+            var item = shoppingList[i];
+            var listItem = '<li>' + item.cantidad + 'x ' + item.producto + ' - Total: $' + item.total + '</li>';
+            shoppingItems.append(listItem);
+          }
+
+          // Actualizar el total de la compra global
+          totalPurchaseElement.text('$' + totalPurchase.toFixed(2));
         }
-
-        });
-
-        // Agregar evento de clic para el botón de agregar al carrito (Líneas nuevas)
-        $('#myDataTable tbody').on('click', '.addToCartBtn', function () {
-          var data = $('#myDataTable').DataTable().row($(this).parents('tr')).data();
-
-          // Extraer descripción y precio del ítem seleccionado
-          var descripcion = data[1];
-          var precio = parseFloat(data[9]); // Convertir a número si es necesario
-
-          // Lógica para agregar el ítem a la lista de compra
-          listaCompra.push({ descripcion: descripcion, precio: precio });
-
-          // Actualizar el total de la compra
-          totalCompra += precio;
-
-          // Puedes mostrar o actualizar el total en algún lugar de tu interfaz
-          // Ejemplo: $('#totalCompra').text('Total: ' + totalCompra.toFixed(2));
-        });
       }
     });
   });
