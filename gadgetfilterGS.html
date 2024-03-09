@@ -67,7 +67,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
     if (quantity !== null && !isNaN(quantity) && quantity > 0) {
       // Calcular el total por producto y por línea
-      var totalItem = parseFloat(data.precio) * parseInt(quantity);
+      var totalItem = parseFloat(data.Total) * parseInt(quantity);
       totalPurchase += totalItem;
 
       // Agregar a la lista de compra y mostrar el total
