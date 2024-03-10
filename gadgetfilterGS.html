@@ -7,6 +7,32 @@
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <style>
+    /* Coloca aquí el bloque de estilos CSS */
+    .shopping-item {
+      font-size: 16px;
+      list-style-type: none;
+      padding: 8px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .item-quantity {
+      display: inline-block;
+      width: 10%;
+    }
+
+    .item-description {
+      display: inline-block;
+      width: 50%;
+    }
+
+    .item-total {
+      display: inline-block;
+      width: 30%;
+      text-align: right;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -98,7 +124,12 @@ $('#myDataTable tbody').on('click', 'tr', function () {
           // Construir y agregar nuevos elementos a la lista de compra
           for (var i = 0; i < shoppingList.length; i++) {
             var item = shoppingList[i];
-            var listItem = '<li>' + item.cantidad + 'x ' + item.producto + ' - Total: $' + item.total + '</li>';
+            var listItem = '<li class="shopping-item">' +
+               '<span class="item-quantity">' + item.cantidad + 'x</span>' +
+               '<span class="item-description">' + item.producto + '</span>' +
+               '<span class="item-total">Total: $' + item.total + '</span>' +
+               '</li>';
+
             shoppingItems.append(listItem);
           }
 
