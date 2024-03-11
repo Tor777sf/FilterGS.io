@@ -148,7 +148,7 @@ $('#whatsappButton').on('click', function () {
   var whatsappLink = 'whatsapp://send?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(pdfUrl);
 
   // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
-  window.open(whatsappLink)
+  window.open(whatsappLink, '_blank');
   
   //window.location.href = whatsappLink;
 });
