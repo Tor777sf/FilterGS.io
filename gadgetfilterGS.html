@@ -121,6 +121,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
  //inicio whatsapp       
 $('#whatsappButton').on('click', function () {
+ // Mostrar el enlace del blob en una alerta
+  alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob))
+  
   // Crear el objeto jsPDF
   var pdfDoc = new jsPDF();
 
@@ -136,8 +139,6 @@ $('#whatsappButton').on('click', function () {
   }
 
   pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
-// Mostrar el enlace del blob en una alerta
-  alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob));
 
   // Guardar el PDF como un blob
   var pdfBlob = pdfDoc.output('blob');
