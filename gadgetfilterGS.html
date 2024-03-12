@@ -128,34 +128,34 @@ $('#whatsappButton').on('click', function () {
   alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob))
   
   // Agregar título al PDF
-  pdfDoc.text('Lista de Compra', 20, 10);
+ /// pdfDoc.text('Lista de Compra', 20, 10);
 
   // Agregar contenido al PDF
-  var yPos = 30;
-  for (var i = 0; i < shoppingList.length; i++) {
-    var item = shoppingList[i];
-    pdfDoc.text(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, 20, yPos);
-    yPos += 10;
-  }
+///  var yPos = 30;
+///  for (var i = 0; i < shoppingList.length; i++) {
+ ///   var item = shoppingList[i];
+///    pdfDoc.text(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, 20, yPos);
+///    yPos += 10;
+///  }
 
-  pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
+///  pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
 
   // Guardar el PDF como un blob
-  var pdfBlob = pdfDoc.output('blob');
+///  var pdfBlob = pdfDoc.output('blob');
 
   // Convertir el blob a Base64
-  var reader = new FileReader();
-  reader.readAsDataURL(pdfBlob);
+ /// var reader = new FileReader();
+ /// reader.readAsDataURL(pdfBlob);
 
-  reader.onloadend = function () {
-    var base64Data = reader.result.split(',')[1]; // Obtener la parte de datos base64
+///  reader.onloadend = function () {
+ ///   var base64Data = reader.result.split(',')[1]; // Obtener la parte de datos base64
 
     // Crear el enlace para compartir por WhatsApp
-    var whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
+  ///  var whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
     
     // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
-    window.open(whatsappLink, '_blank');
-  };
+  ///  window.open(whatsappLink, '_blank');
+///  };
 });
 
 //fin whatsapp
