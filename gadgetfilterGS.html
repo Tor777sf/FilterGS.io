@@ -121,12 +121,12 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
  //inicio whatsapp       
 $('#whatsappButton').on('click', function () {
- // Mostrar el enlace del blob en una alerta
-  alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob))
-  
+ 
   // Crear el objeto jsPDF
   var pdfDoc = new jsPDF();
-
+// Mostrar el enlace del blob en una alerta
+  alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob))
+  
   // Agregar título al PDF
   pdfDoc.text('Lista de Compra', 20, 10);
 
