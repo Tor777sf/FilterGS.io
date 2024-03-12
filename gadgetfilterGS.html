@@ -137,7 +137,7 @@ $('#whatsappButton').on('click', function () {
 
   pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
 // Mostrar el enlace del blob en una alerta
-  alert('Enlace del Blob: ' + URL.createObjectURL(pdfBlob));
+  alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob));
 
   // Guardar el PDF como un blob
   var pdfBlob = pdfDoc.output('blob');
