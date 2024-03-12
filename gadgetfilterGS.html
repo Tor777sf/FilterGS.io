@@ -123,32 +123,32 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 //whatsapp
 $('#whatsappButton').on('click', function () {
   // Crear el objeto jsPDF
- /// var pdfDoc = new jsPDF();
+  var pdfDoc = new jsPDF();
 
   // Agregar título al PDF
-/// pdfDoc.text('Lista de Compra', 20, 10);
+ pdfDoc.text('Lista de Compra', 20, 10);
 
   // Agregar contenido al PDF
-  ///var yPos = 30;
-  ///for (var i = 0; i < shoppingList.length; i++) {
-   /// var item = shoppingList[i];
-  ///  pdfDoc.text(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, 20, yPos);
-  ///  yPos += 10;
- /// }
+  var yPos = 30;
+  for (var i = 0; i < shoppingList.length; i++) {
+    var item = shoppingList[i];
+    pdfDoc.text(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, 20, yPos);
+    yPos += 10;
+  }
 
-  ///pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
+  pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
 
   // Guardar el PDF como un blob
- /// var pdfBlob = pdfDoc.output('blob');
+  var pdfBlob = pdfDoc.output('blob');
 
   // Crear un enlace para descargar el PDF
- /// var pdfUrl = URL.createObjectURL(pdfBlob);
+  var pdfUrl = URL.createObjectURL(pdfBlob);
 
   // Crear el enlace para compartir por WhatsApp
- /// var whatsappLink = 'http://wa.me/?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(pdfUrl);
+ /// var whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(pdfUrl);
  ///  var whatsappLink = 'http://wa.me/929963950'//?text=Consulta%20el%20informe%20de%20la%20lista%20de%20compra:%20' + encodeURIComponent(pdfUrl);
-  var defaultText = 'Consulta el informe de la lista de compra:';
-  var whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent(defaultText);
+ /// var defaultText = 'Consulta el informe de la lista de compra:';
+  ///var whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent(defaultText);
 
  ///var whatsappLink = 'http://wa.me/929963950?text='222// + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(pdfUrl);
 
