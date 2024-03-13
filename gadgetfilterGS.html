@@ -132,40 +132,37 @@ $('#whatsappButton').on('click', async function () {
     // Agregar una nueva página al PDF
     const page = pdfDoc.addPage();
 
-    // Usar una fuente predeterminada para el texto
-    const font = await pdfDoc.embedFont(PDFLib.Font.Helvetica);
-
     // Establecer el tamaño y la posición del texto
     const textSize = 12;
     const textX = 20;
-    let textY = 750;
+    const textY = 750;
 
-    // Agregar título al PDF
-    page.drawText('Lista de Compra', { x: textX, y: textY, font, size: textSize });
-    textY -= 20;
+    // Agregar texto a la página sin utilizar una fuente específica
+    page.drawText('Lista de Compra:', { x: textX, y: textY, size: textSize });
 
-    // Agregar contenido al PDF
-    for (const item of shoppingList) {
-      page.drawText(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, { x: textX, y: textY, font, size: textSize });
-      textY -= 15;
+    // Agregar elementos de la lista de compras
+    const yPosStart = textY - 10;
+    const itemHeight = 15;
+    for (let i = 0; i < shoppingList.length; i++) {
+      const item = shoppingList[i];
+      const yPos = yPosStart - i * itemHeight;
+      page.drawText(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, { x: textX, y: yPos, size: textSize });
     }
-
-    page.drawText(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, { x: textX, y: textY, font, size: textSize });
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
 
-    // Convertir los bytes del PDF a Base64
-    const base64Data = PDFLib.arrayBufferToBase64(pdfBytes);
-
     // Crear el enlace para compartir por WhatsApp
-    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
+    const whatsappLink = 'whatsapp://send?text=Consulta el informe de la lista de compra: ' + encodeURIComponent(window.location.href);
+
+    // Mostrar el enlace en una alerta
+    alert('Enlace para compartir por WhatsApp: ' + whatsappLink);
 
     // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
     window.open(whatsappLink, '_blank');
+
   } catch (error) {
-    console.error('Error al crear el PDF:', error);
-    alert('Error al crear el PDF. Consulta la consola para más detalles.');
+    alert('Error al crear el PDF: ' + error.message);
     // Manejar el error según sea necesario
   }
 });
