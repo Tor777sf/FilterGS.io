@@ -124,6 +124,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // ...
 
+
 //inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
@@ -157,7 +158,7 @@ $('#whatsappButton').on('click', async function () {
     const base64Data = bytesToBase64(pdfBytes);
 
     // Crear el enlace para compartir por WhatsApp
-    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
+    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ' + base64Data);
 
     // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
     window.open(whatsappLink, '_blank');
