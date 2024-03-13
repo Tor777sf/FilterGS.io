@@ -127,7 +127,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // ...
 
-//inicio whatsapp       
+//ini//inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
     // Crear el objeto PDF en blanco
@@ -156,14 +156,12 @@ $('#whatsappButton').on('click', async function () {
     // Guardar el PDF como un blob
     const pdfBlob = await pdfDoc.save();
 
-    // Crear un objeto URL para el blob del PDF
-    const pdfBlobURL = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+    // Mostrar el enlace del blob en una alerta
+    alert('Enlace del Blob: ' + URL.createObjectURL(pdfBlob));
 
-    // Crear el enlace para compartir por WhatsApp
-    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ' + pdfBlobURL);
+    // Aquí puedes agregar el código para compartir en WhatsApp usando el enlace generado
+    // ...
 
-    // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
-    window.open(whatsappLink, '_blank');
   } catch (error) {
     alert('Error al crear el PDF: ' + error.message);
     // Manejar el error según sea necesario
@@ -171,7 +169,6 @@ $('#whatsappButton').on('click', async function () {
 });
 
 //fin whatsapp
-
 
  
         
