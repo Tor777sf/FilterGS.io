@@ -160,7 +160,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 ///});
 
 //fin whatsapp
-
 //inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
@@ -181,8 +180,8 @@ $('#whatsappButton').on('click', async function () {
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
 
-    // Convertir los bytes del PDF a Base64
-    const base64Data = PDFLib.arrayBufferToBase64(pdfBytes);
+    // Convertir los bytes del PDF a Base64 usando una función personalizada
+    const base64Data = bytesToBase64(pdfBytes);
 
     // Crear un enlace para descargar y ver el PDF
     const downloadLink = document.createElement('a');
@@ -195,6 +194,13 @@ $('#whatsappButton').on('click', async function () {
     // Manejar el error según sea necesario
   }
 });
+
+// Función personalizada para convertir bytes a Base64
+function bytesToBase64(bytes) {
+  let binary = '';
+  bytes.forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary);
+}
 //fin whatsapp
 
  
