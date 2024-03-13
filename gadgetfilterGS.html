@@ -124,7 +124,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // ...
 
-//inicio whatsapp       
+//ini//inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
     // Crear el objeto PDF en blanco
@@ -157,11 +157,13 @@ $('#whatsappButton').on('click', async function () {
     const pdfBytesArray = new Uint8Array(pdfBytes);
     const base64Data = btoa(String.fromCharCode.apply(null, pdfBytesArray));
 
-    // Crear el enlace para compartir por WhatsApp
-    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
+    // Crear el enlace de descarga para compartir por WhatsApp
+    const downloadLink = document.createElement('a');
+    downloadLink.href = 'data:application/pdf;base64,' + base64Data;
+    downloadLink.download = 'Lista_de_Compra.pdf';
 
-    // Abrir el enlace en una nueva ventana
-    window.open(whatsappLink, '_blank');
+    // Simular un clic en el enlace para abrir la ventana de descarga
+    downloadLink.click();
 
   } catch (error) {
     alert('Error al crear el PDF: ' + error.message);
@@ -169,6 +171,7 @@ $('#whatsappButton').on('click', async function () {
   }
 });
 //fin whatsapp
+
 
 
         
