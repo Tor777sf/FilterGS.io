@@ -120,46 +120,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // .
 
- //inicio whatsapp       
-///$('#whatsappButton').on('click', function () {
-  
-  // Crear el objeto jsPDF
- /// var pdfDoc = new jsPDF();
- // Mostrar el enlace del blob en una alerta
-  ///alert('Enlace del Blob: ');// + URL.createObjectURL(pdfBlob))
+// ...
 
-  // Agregar título al PDF
- /// pdfDoc.text('Lista de Compra', 20, 10);
-
-  // Agregar contenido al PDF
-///  var yPos = 30;
-///  for (var i = 0; i < shoppingList.length; i++) {
- ///   var item = shoppingList[i];
-///    pdfDoc.text(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, 20, yPos);
-///    yPos += 10;
-///  }
-
-///  pdfDoc.text(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, 20, yPos);
-
-  // Guardar el PDF como un blob
-///  var pdfBlob = pdfDoc.output('blob');
-
-  // Convertir el blob a Base64
- /// var reader = new FileReader();
- /// reader.readAsDataURL(pdfBlob);
-
-///  reader.onloadend = function () {
- ///   var base64Data = reader.result.split(',')[1]; // Obtener la parte de datos base64
-
-    // Crear el enlace para compartir por WhatsApp
-  ///  var whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
-    
-    // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
-  ///  window.open(whatsappLink, '_blank');
-///  };
-///});
-
-//fin whatsapp
 //inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
@@ -175,32 +137,79 @@ $('#whatsappButton').on('click', async function () {
     const textY = 750;
 
     // Agregar texto a la página sin utilizar una fuente específica
-    page.drawText('Hola, este es un PDF de prueba.', { x: textX, y: textY, size: textSize });
+    page.drawText('Lista de Compra:', { x: textX, y: textY, size: textSize });
+
+    // Agregar elementos de la lista de compras
+    const yPosStart = textY - 10;
+    const itemHeight = 15;
+    for (let i = 0; i < shoppingList.length; i++) {
+      const item = shoppingList[i];
+      const yPos = yPosStart - i * itemHeight;
+      page.drawText(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, { x: textX, y: yPos, size: textSize });
+    }
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
 
-    // Convertir los bytes del PDF a Base64 usando una función personalizada
+    // Convertir los bytes del PDF a Base64 usando la función personalizada
     const base64Data = bytesToBase64(pdfBytes);
 
-    // Crear un enlace para descargar y ver el PDF
-    const downloadLink = document.createElement('a');
-    downloadLink.href = 'data:application/pdf;base64,' + base64Data;
-    downloadLink.download = 'prueba.pdf';
-    downloadLink.target = '_blank';
-    downloadLink.click();
+    // Crear el enlace para compartir por WhatsApp
+    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
+
+    // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
+    window.open(whatsappLink, '_blank');
   } catch (error) {
     alert('Error al crear el PDF: ' + error.message);
     // Manejar el error según sea necesario
   }
 });
 
+// ...
+
+//fin whatsapp
+        
+//inicio whatsapp       
+///$('#whatsappButton').on('click', async function () {
+///  try {
+    // Crear el objeto PDF en blanco
+   /// const pdfDoc = await PDFLib.PDFDocument.create();
+
+    // Agregar una nueva página al PDF
+   /// const page = pdfDoc.addPage();
+
+    // Establecer el tamaño y la posición del texto
+   /// const textSize = 12;
+   /// const textX = 20;
+  ///  const textY = 750;
+
+    // Agregar texto a la página sin utilizar una fuente específica
+  ///  page.drawText('Hola, este es un PDF de prueba.', { x: textX, y: textY, size: textSize });
+
+    // Guardar el PDF como un blob
+  ///  const pdfBytes = await pdfDoc.save();
+
+    // Convertir los bytes del PDF a Base64 usando una función personalizada
+   /// const base64Data = bytesToBase64(pdfBytes);
+
+    // Crear un enlace para descargar y ver el PDF
+ ///   const downloadLink = document.createElement('a');
+///    downloadLink.href = 'data:application/pdf;base64,' + base64Data;
+  ///  downloadLink.download = 'prueba.pdf';
+  ///  downloadLink.target = '_blank';
+ ///   downloadLink.click();
+///  } catch (error) {
+ ///   alert('Error al crear el PDF: ' + error.message);
+    // Manejar el error según sea necesario
+///  }
+///});
+
 // Función personalizada para convertir bytes a Base64
-function bytesToBase64(bytes) {
-  let binary = '';
-  bytes.forEach(byte => binary += String.fromCharCode(byte));
-  return btoa(binary);
-}
+///function bytesToBase64(bytes) {
+///  let binary = '';
+///  bytes.forEach(byte => binary += String.fromCharCode(byte));
+ /// return btoa(binary);
+///}
 //fin whatsapp
 
  
