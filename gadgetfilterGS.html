@@ -202,7 +202,7 @@ $('#whatsappButton').on('click', async function () {
     // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
     window.open(whatsappLink, '_blank');
   } catch (error) {
-    alert.error('Error al crear el PDF:', error);
+    alert('Error al crear el PDF:', error);
     // Manejar el error según sea necesario
   }
 });
