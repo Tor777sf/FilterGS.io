@@ -122,6 +122,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // ...
 
+// ...
+
 //inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
@@ -165,51 +167,12 @@ $('#whatsappButton').on('click', async function () {
   }
 });
 
-// ...
-
-//fin whatsapp
-        
-//inicio whatsapp       
-///$('#whatsappButton').on('click', async function () {
-///  try {
-    // Crear el objeto PDF en blanco
-   /// const pdfDoc = await PDFLib.PDFDocument.create();
-
-    // Agregar una nueva página al PDF
-   /// const page = pdfDoc.addPage();
-
-    // Establecer el tamaño y la posición del texto
-   /// const textSize = 12;
-   /// const textX = 20;
-  ///  const textY = 750;
-
-    // Agregar texto a la página sin utilizar una fuente específica
-  ///  page.drawText('Hola, este es un PDF de prueba.', { x: textX, y: textY, size: textSize });
-
-    // Guardar el PDF como un blob
-  ///  const pdfBytes = await pdfDoc.save();
-
-    // Convertir los bytes del PDF a Base64 usando una función personalizada
-   /// const base64Data = bytesToBase64(pdfBytes);
-
-    // Crear un enlace para descargar y ver el PDF
- ///   const downloadLink = document.createElement('a');
-///    downloadLink.href = 'data:application/pdf;base64,' + base64Data;
-  ///  downloadLink.download = 'prueba.pdf';
-  ///  downloadLink.target = '_blank';
- ///   downloadLink.click();
-///  } catch (error) {
- ///   alert('Error al crear el PDF: ' + error.message);
-    // Manejar el error según sea necesario
-///  }
-///});
-
 // Función personalizada para convertir bytes a Base64
-///function bytesToBase64(bytes) {
-///  let binary = '';
-///  bytes.forEach(byte => binary += String.fromCharCode(byte));
- /// return btoa(binary);
-///}
+function bytesToBase64(bytes) {
+  let binary = '';
+  bytes.forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary);
+}
 //fin whatsapp
 
  
