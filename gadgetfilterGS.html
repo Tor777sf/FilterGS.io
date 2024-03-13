@@ -126,14 +126,16 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 //   inicio botones Whatsapp y pdf
 // Función para formatear la lista de compra en un texto ordenado
 function formatShoppingList() {
-  let formattedList = 'Lista de Compra:\n\n';
+  let formattedList = '📋 Lista de Compra:\n\n';
   for (let i = 0; i < shoppingList.length; i++) {
     const item = shoppingList[i];
-    formattedList += `${item.cantidad}x ${item.producto} - Total: $${item.total}\n`;
+    formattedList += `🛒 ${item.cantidad}x ${item.producto} - Total: $${item.total}\n`;
+    formattedList += '─────────────\n'; // Línea decorativa
   }
-  formattedList += `\nTotal de Compra: $${totalPurchase.toFixed(2)}`;
+  formattedList += `\n💰 Total de Compra: $${totalPurchase.toFixed(2)}`;
   return formattedList;
 }
+
 
 // Descargar PDF al hacer clic en el botón "Descargar PDF"
 $('#downloadPDFButton').on('click', async function () {
