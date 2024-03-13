@@ -124,7 +124,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // ...
 
-
 //inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
@@ -161,8 +160,8 @@ $('#whatsappButton').on('click', async function () {
     // Crear el enlace para compartir por WhatsApp
     const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
 
-    // Mostrar el enlace del blob en una alerta
-    alert('Enlace del Blob: ' + whatsappLink);
+    // Abrir el enlace en una nueva ventana
+    window.open(whatsappLink, '_blank');
 
   } catch (error) {
     alert('Error al crear el PDF: ' + error.message);
@@ -170,6 +169,7 @@ $('#whatsappButton').on('click', async function () {
   }
 });
 //fin whatsapp
+
 
         
         // Función para actualizar la lista de compra en la interfaz
