@@ -152,22 +152,17 @@ $('#whatsappButton').on('click', async function () {
     }
 
     // Guardar el PDF como un blob
-    const pdfBlob = await pdfDoc.save();
+    const pdfBytes = await pdfDoc.save();
 
     // Convertir el blob a Base64
-    const reader = new FileReader();
-    reader.readAsDataURL(pdfBlob);
+    const pdfBytesArray = new Uint8Array(pdfBytes);
+    const base64Data = btoa(String.fromCharCode.apply(null, pdfBytesArray));
 
-    reader.onloadend = function () {
-      // Obtener la parte de datos base64
-      const base64Data = reader.result.split(',')[1];
+    // Crear el enlace para compartir por WhatsApp
+    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
 
-      // Crear el enlace para compartir por WhatsApp
-      const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
-      
-      // Mostrar el enlace del blob en una alerta
-      alert('Enlace del Blob: ' + whatsappLink);
-    };
+    // Mostrar el enlace del blob en una alerta
+    alert('Enlace del Blob: ' + whatsappLink);
 
   } catch (error) {
     alert('Error al crear el PDF: ' + error.message);
