@@ -176,19 +176,10 @@ $('#whatsappButton').on('click', async function () {
     // Establecer el tamaño y la posición del texto
     const textSize = 12;
     const textX = 20;
-    let textY = 750;
+    const textY = 750;
 
-    // Agregar título al PDF
-    page.drawText('Lista de Compra', { x: textX, y: textY, font, size: textSize });
-    textY -= 20;
-
-    // Agregar contenido al PDF
-    for (const item of shoppingList) {
-      page.drawText(`${item.cantidad}x ${item.producto} - Total: $${item.total}`, { x: textX, y: textY, font, size: textSize });
-      textY -= 15;
-    }
-
-    page.drawText(`\nTotal de Compra: $${totalPurchase.toFixed(2)}`, { x: textX, y: textY, font, size: textSize });
+    // Agregar texto a la página
+    page.drawText('Hola, este es un PDF de prueba.', { x: textX, y: textY, font, size: textSize });
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
@@ -196,17 +187,19 @@ $('#whatsappButton').on('click', async function () {
     // Convertir los bytes del PDF a Base64
     const base64Data = PDFLib.arrayBufferToBase64(pdfBytes);
 
-    // Crear el enlace para compartir por WhatsApp
-    const whatsappLink = 'http://wa.me/929963950?text=' + encodeURIComponent('Consulta el informe de la lista de compra: ') + '%0A' + encodeURIComponent(base64Data);
-
-    // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
-    window.open(whatsappLink, '_blank');
+    // Crear un enlace para descargar y ver el PDF
+    const downloadLink = document.createElement('a');
+    downloadLink.href = 'data:application/pdf;base64,' + base64Data;
+    downloadLink.download = 'prueba.pdf';
+    downloadLink.target = '_blank';
+    downloadLink.click();
   } catch (error) {
-    alert('Error al crear el PDF:', error);
+    alert('Error al crear el PDF: ' + error.message);
     // Manejar el error según sea necesario
   }
 });
 //fin whatsapp
+
  
         
         // Función para actualizar la lista de compra en la interfaz
