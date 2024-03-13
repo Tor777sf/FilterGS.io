@@ -127,6 +127,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 //inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
+//inicio whatsapp       
+$('#whatsappButton').on('click', async function () {
   try {
     // Crear el objeto PDF en blanco
     const pdfDoc = await PDFLib.PDFDocument.create();
@@ -169,10 +171,8 @@ $('#whatsappButton').on('click', async function () {
     // Manejar el error según sea necesario
   }
 });
-
 //fin whatsapp
 
- 
         
         // Función para actualizar la lista de compra en la interfaz
         function updateShoppingList() {
