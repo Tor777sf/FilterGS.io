@@ -161,7 +161,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 //fin whatsapp
 
-   //inicio whatsapp       
+//inicio whatsapp       
 $('#whatsappButton').on('click', async function () {
   try {
     // Crear el objeto PDF en blanco
@@ -170,16 +170,13 @@ $('#whatsappButton').on('click', async function () {
     // Agregar una nueva página al PDF
     const page = pdfDoc.addPage();
 
-    // Usar una fuente predeterminada para el texto
-    const font = await pdfDoc.embedFont(PDFLib.Font.Helvetica);
-
     // Establecer el tamaño y la posición del texto
     const textSize = 12;
     const textX = 20;
     const textY = 750;
 
-    // Agregar texto a la página
-    page.drawText('Hola, este es un PDF de prueba.', { x: textX, y: textY, font, size: textSize });
+    // Agregar texto a la página sin utilizar una fuente específica
+    page.drawText('Hola, este es un PDF de prueba.', { x: textX, y: textY, size: textSize });
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
