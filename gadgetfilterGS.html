@@ -129,67 +129,70 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 //   inicio botones Whatsapp y pdf
 
   // Función para formatear la lista de compra
-  function formatShoppingList() {
-    let formattedList = '📋 Lista de Compra:\n\n';
-    for (let i = 0; i < shoppingList.length; i++) {
-      const item = shoppingList[i];
-      formattedList += `🛒 ${item.cantidad}x ${item.producto} - Total: $${item.total}\n`;
-      formattedList += '─────────────\n'; // Línea decorativa
-    }
-    formattedList += `\n💰 Total de Compra: $${totalPurchase.toFixed(2)}`;
-    return formattedList;
+function formatShoppingList() {
+  let formattedList = '📋 Lista de Compra:\n\n';
+  for (let i = 0; i < shoppingList.length; i++) {
+    const item = shoppingList[i];
+    formattedList += `🛒 ${item.cantidad}x ${item.producto} - Total: $${item.total}\n`;
+    formattedList += '─────────────\n'; // Línea decorativa
   }
+  formattedList += `\n💰 Total de Compra: $${totalPurchase.toFixed(2)}`;
 
-  // Descargar PDF al hacer clic en el botón "Descargar PDF"
-  $('#downloadPDFButton').on('click', async function () {
-    try {
-      // Crear el objeto PDF en blanco
-      const pdfDoc = await PDFLib.PDFDocument.create();
+  // Agregar enlace al GIF
+  const gifURL = 'https://media2.giphy.com/media/3o72Fj8mcEJC5InEFa/200w.webp?cid=ecf05e47iogotsnrkib2qj85yqifajv7o5c4j9e7bws0e8f2&ep=v1_gifs_related&rid=200w.webp&ct=g'; // URL directa al GIF
+  formattedList += `\n\n¡Mira este GIF increíble!\n\n`;
+  formattedList += `<a href="${gifURL}" target="_blank"><img src="${gifURL}" alt="Vista previa del GIF"></a>\n\n`;
+  formattedList += 'Haz clic en el enlace para ver el GIF completo.\n';
 
-      // Agregar una nueva página al PDF
-      const page = pdfDoc.addPage();
+  return formattedList;
+}
 
-      // Establecer el tamaño y la posición del texto
-      const textSize = 12;
-      const textX = 20;
-      const textY = 750;
+// Descargar PDF al hacer clic en el botón "Descargar PDF"
+$('#downloadPDFButton').on('click', async function () {
+  try {
+    // Crear el objeto PDF en blanco
+    const pdfDoc = await PDFLib.PDFDocument.create();
 
-      // Obtener la lista de compra formateada
-      const formattedList = formatShoppingList();
+    // Agregar una nueva página al PDF
+    const page = pdfDoc.addPage();
 
-      // Agregar texto a la página utilizando la fuente predeterminada
-      page.drawText(formattedList, { x: textX, y: textY, size: textSize });
+    // Establecer el tamaño y la posición del texto
+    const textSize = 12;
+    const textX = 20;
+    const textY = 750;
 
-      // Guardar el PDF como un blob
-      const pdfBytes = await pdfDoc.save();
+    // Obtener la lista de compra formateada
+    const formattedList = formatShoppingList();
 
-      // Crear el enlace de descarga para el PDF
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
-      downloadLink.download = 'Lista_de_Compra.pdf';
+    // Agregar texto a la página utilizando la fuente predeterminada
+    page.drawText(formattedList, { x: textX, y: textY, size: textSize });
 
-      // Simular un clic en el enlace para abrir la ventana de descarga
-      downloadLink.click();
-    } catch (error) {
-      alert('Error al crear/descargar el PDF: ' + error.message);
-    }
-  });
+    // Guardar el PDF como un blob
+    const pdfBytes = await pdfDoc.save();
 
-  // Función para compartir en WhatsApp al hacer clic en el botón
-  // Función para compartir en WhatsApp al hacer clic en el botón
+    // Crear el enlace de descarga para el PDF
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+    downloadLink.download = 'Lista_de_Compra.pdf';
+
+    // Simular un clic en el enlace para abrir la ventana de descarga
+    downloadLink.click();
+  } catch (error) {
+    alert('Error al crear/descargar el PDF: ' + error.message);
+  }
+});
+
+// Función para compartir en WhatsApp al hacer clic en el botón
 $('#whatsappButton').on('click', function () {
   try {
     // Obtener la lista de compra formateada
     const formattedList = formatShoppingList();
 
-    // Generar el enlace de WhatsApp con el mensaje
-    const link = window.WhatsappClickToChat.createChatLink({
-      phone: '1234567890', // Reemplazar con el número de teléfono al que se enviará el mensaje
-      message: formattedList // Usar el mensaje formateado
-    });
+    // Abrir WhatsApp con el mensaje
+    const whatsappLink = 'whatsapp://send?text=' + encodeURIComponent(formattedList);
 
-    // Abrir el enlace en una nueva ventana
-    window.open(link, '_blank');
+    // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
+    window.open(whatsappLink, '_blank');
   } catch (error) {
     alert('Error al compartir en WhatsApp: ' + error.message);
   }
