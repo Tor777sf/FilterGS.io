@@ -153,8 +153,8 @@ $('#downloadPDFButton').on('click', async function () {
     // Obtener la lista de compra formateada
     const formattedList = formatShoppingList();
 
-    // Agregar texto a la página utilizando la fuente "Arial Unicode MS"
-    page.drawText(formattedList, { x: textX, y: textY, size: textSize, font: pdfDoc.embedFont('Arial Unicode MS') });
+    // Agregar texto a la página utilizando la fuente predeterminada
+    page.drawText(formattedList, { x: textX, y: textY, size: textSize });
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
@@ -170,6 +170,7 @@ $('#downloadPDFButton').on('click', async function () {
     alert('Error al crear/descargar el PDF: ' + error.message);
   }
 });
+
 
 //inicio whatsapp       
 $('#whatsappButton').on('click', function () {
