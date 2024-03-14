@@ -128,12 +128,15 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 // ...
 //   inicio botones Whatsapp y pdf
 
-  // Función para formatear la lista de compra
+// Función para formatear la lista de compra
 function formatShoppingList() {
   let formattedList = '📋 Lista de Compra:\n\n';
   for (let i = 0; i < shoppingList.length; i++) {
     const item = shoppingList[i];
-    formattedList += `🛒 ${item.cantidad}x ${item.producto} - Total: $${item.total}\n`;
+    // Reemplazar las letras con emojis correspondientes
+    const cantidadEmoji = item.cantidad.replace(/[a-z]/g, letterToEmoji);
+    const productoEmoji = item.producto.replace(/[a-z]/g, letterToEmoji);
+    formattedList += `🔤 ${cantidadEmoji}x ${productoEmoji} - Total: $${item.total}\n`;
     formattedList += '─────────────\n'; // Línea decorativa
   }
   formattedList += `\n💰 Total de Compra: $${totalPurchase.toFixed(2)}`;
@@ -143,6 +146,40 @@ function formatShoppingList() {
   formattedList += `\n\n¡Mira este GIF increíble!\n${gifURL}\n\n`;
 
   return formattedList;
+}
+
+// Función para reemplazar letras con emojis correspondientes
+function letterToEmoji(letter) {
+  const emojiMap = {
+    a: '🅰️',
+    b: '🅱️',
+    c: '🇨',
+    d: '🇩',
+    e: '🇪',
+    f: '🇫',
+    g: '🇬',
+    h: '🇭',
+    i: '🇮',
+    j: '🇯',
+    k: '🇰',
+    l: '🇱',
+    m: '🇲',
+    n: '🇳',
+    o: '🅾️',
+    p: '🅿️',
+    q: '🇶',
+    r: '🇷',
+    s: '🇸',
+    t: '🇹',
+    u: '🇺',
+    v: '🇻',
+    w: '🇼',
+    x: '🇽',
+    y: '🇾',
+    z: '🇿'
+  };
+  // Devolver el emoji correspondiente a la letra, o la letra misma si no hay un emoji correspondiente
+  return emojiMap[letter] || letter;
 }
 
 // Descargar PDF al hacer clic en el botón "Descargar PDF"
@@ -195,7 +232,6 @@ $('#whatsappButton').on('click', function () {
     alert('Error al compartir en WhatsApp: ' + error.message);
   }
 });
-
 
 // fin botones Whatsapp y pdf
 
