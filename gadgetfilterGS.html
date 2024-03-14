@@ -136,7 +136,6 @@ function formatShoppingList() {
   return formattedList;
 }
 
-
 // Descargar PDF al hacer clic en el botón "Descargar PDF"
 $('#downloadPDFButton').on('click', async function () {
   try {
@@ -151,8 +150,11 @@ $('#downloadPDFButton').on('click', async function () {
     const textX = 20;
     const textY = 750;
 
-    // Agregar texto a la página sin utilizar una fuente específica
-    page.drawText(formatShoppingList(), { x: textX, y: textY, size: textSize });
+    // Obtener la lista de compra formateada
+    const formattedList = formatShoppingList();
+
+    // Agregar texto a la página utilizando la fuente "Arial Unicode MS"
+    page.drawText(formattedList, { x: textX, y: textY, size: textSize, font: pdfDoc.embedFont('Arial Unicode MS') });
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
@@ -181,6 +183,7 @@ $('#whatsappButton').on('click', function () {
   window.open(whatsappLink, '_blank');
 });
 //fin whatsapp
+
 // fin botones Whatsapp y pdf
 
 //inicio whatsapp       
