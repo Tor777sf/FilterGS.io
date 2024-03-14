@@ -176,19 +176,25 @@ $('#myDataTable tbody').on('click', 'tr', function () {
   });
 
   // Función para compartir en WhatsApp al hacer clic en el botón
-  $('#whatsappButton').on('click', function () {
+  // Función para compartir en WhatsApp al hacer clic en el botón
+$('#whatsappButton').on('click', function () {
+  try {
     // Obtener la lista de compra formateada
     const formattedList = formatShoppingList();
 
     // Generar el enlace de WhatsApp con el mensaje
     const link = window.WhatsappClickToChat.createChatLink({
-      phone: '929963950', // Reemplazar con el número de teléfono al que se enviará el mensaje
+      phone: '1234567890', // Reemplazar con el número de teléfono al que se enviará el mensaje
       message: formattedList // Usar el mensaje formateado
     });
 
     // Abrir el enlace en una nueva ventana
     window.open(link, '_blank');
-  });
+  } catch (error) {
+    alert('Error al compartir en WhatsApp: ' + error.message);
+  }
+});
+
 
 // fin botones Whatsapp y pdf
 
