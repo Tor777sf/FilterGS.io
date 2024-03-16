@@ -15,6 +15,10 @@
   <script src="https://cdn.jsdelivr.net/npm/whatsapp-click-to-chat/dist/index.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <style>
     /* Coloca aquí el bloque de estilos CSS */
@@ -95,37 +99,74 @@
 // ...
 
 // Agregar evento clic para generar lista de compra
-$('#myDataTable tbody').on('click', 'tr', function () {
+///$('#myDataTable tbody').on('click', 'tr', function () {
+ /// var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
+
+  // Verificar si la descripción del producto está definida
+ /// if (data && data.DESCRIPCION) {
+    // Pedir al usuario ingresar la cantidad
+ ///   var quantity = prompt('Ingrese la cantidad para "' + data.DESCRIPCION + '":', 1);
+
+    
+  ///  if (quantity !== null && !isNaN(quantity) && quantity > 0) {
+      // Calcular el total por producto y por línea
+   ///   var totalItem = parseFloat(data.Total) * parseInt(quantity);
+  ///    totalPurchase += totalItem;
+
+      // Agregar a la lista de compra y mostrar el total
+   ///   shoppingList.push({
+   ///     producto: data.DESCRIPCION,
+     ///   cantidad: quantity,
+   ///     total: totalItem.toFixed(2)
+   ///   });
+
+      // Actualizar la lista de compra y el total global en la interfaz
+    ///  updateShoppingList();
+   /// } else {
+    ///  alert('Cantidad no válida. Intente de nuevo.');
+  ///  }
+  ///} else {
+  ///  alert('Descripción del producto no definida. Intente de nuevo.');
+ /// }
+///});
+// fin evento clic para generar lista de compra
+
+    // inicio Agregar evento clic para generar lista de compra    
+  $('#myDataTable tbody').on('click', 'tr', function () {
   var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
 
   // Verificar si la descripción del producto está definida
   if (data && data.DESCRIPCION) {
-    // Pedir al usuario ingresar la cantidad
-    var quantity = prompt('Ingrese la cantidad para "' + data.DESCRIPCION + '":', 1);
+    $('#quantityModal').modal('show'); // Mostrar el formulario modal
 
-    
-    if (quantity !== null && !isNaN(quantity) && quantity > 0) {
-      // Calcular el total por producto y por línea
+    // Capturar el evento clic del botón "Agregar" en el formulario modal
+    $('#addQuantityBtn').on('click', function () {
+      var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+      if (!quantity || isNaN(quantity) || quantity <= 0) {
+        alert('La cantidad debe ser un número positivo.');
+        return;
+      }
+
+      // La cantidad es válida, procede con el proceso de agregar a la lista de compra
       var totalItem = parseFloat(data.Total) * parseInt(quantity);
       totalPurchase += totalItem;
 
-      // Agregar a la lista de compra y mostrar el total
       shoppingList.push({
         producto: data.DESCRIPCION,
         cantidad: quantity,
         total: totalItem.toFixed(2)
       });
 
-      // Actualizar la lista de compra y el total global en la interfaz
       updateShoppingList();
-    } else {
-      alert('Cantidad no válida. Intente de nuevo.');
-    }
+
+      $('#quantityModal').modal('hide'); // Ocultar el formulario modal
+    });
   } else {
     alert('Descripción del producto no definida. Intente de nuevo.');
   }
 });
-
+// fin Agregar evento clic para generar lista de compra
+        
 // .
 
 // ...
@@ -242,6 +283,31 @@ $('#whatsappButton').on('click', function () {
     });
   });
 </script>
-
+<!-- Modal -->
+<div class="modal fade" id="quantityModal" tabindex="-1" role="dialog" aria-labelledby="quantityModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quantityModalLabel">Ingrese la cantidad</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="quantityForm">
+          <div class="form-group">
+            <label for="quantityInput">Cantidad:</label>
+            <input type="number" class="form-control" id="quantityInput" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="addQuantityBtn">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal fin -->
 </body>
 </html>
