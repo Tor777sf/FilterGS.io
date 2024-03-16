@@ -130,8 +130,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 // ...
 //   inicio botones Whatsapp y pdf
 
-// Función para formatear la lista de compra
-function formatShoppingList() {
+// Función para formatear la lista de compra para WhatsApp
+function formatShoppingListForWhatsApp() {
   let formattedList = '*📋 Lista de Compra:*\n\n';
   for (let i = 0; i < shoppingList.length; i++) {
     const item = shoppingList[i];
@@ -143,6 +143,19 @@ function formatShoppingList() {
   // Agregar enlace al GIF
   const gifURL = 'https://media2.giphy.com/media/3o72Fj8mcEJC5InEFa/200w.webp?cid=ecf05e47iogotsnrkib2qj85yqifajv7o5c4j9e7bws0e8f2&ep=v1_gifs_related&rid=200w.webp&ct=g'; // URL directa al GIF
   formattedList += `\n\n¡Mira este GIF increíble!\n${gifURL}\n\n`;
+
+  return formattedList;
+}
+
+// Función para formatear la lista de compra para el PDF
+function formatShoppingListForPDF() {
+  let formattedList = 'Lista de Compra:\n\n';
+  for (let i = 0; i < shoppingList.length; i++) {
+    const item = shoppingList[i];
+    formattedList += `${item.cantidad}x ${item.producto} - Total: $${item.total}\n`;
+    formattedList += '─────────────────────────────\n'; // Línea decorativa
+  }
+  formattedList += `\nTotal de Compra: $${totalPurchase.toFixed(2)}`;
 
   return formattedList;
 }
@@ -161,11 +174,11 @@ $('#downloadPDFButton').on('click', async function () {
     const textX = 20;
     const textY = 750;
 
-    // Obtener la lista de compra formateada
-    const formattedList = formatShoppingList();
+    // Obtener la lista de compra formateada para PDF
+    const formattedListForPDF = formatShoppingListForPDF();
 
     // Agregar texto a la página utilizando la fuente predeterminada
-    page.drawText(formattedList, { x: textX, y: textY, size: textSize });
+    page.drawText(formattedListForPDF, { x: textX, y: textY, size: textSize });
 
     // Guardar el PDF como un blob
     const pdfBytes = await pdfDoc.save();
@@ -185,11 +198,11 @@ $('#downloadPDFButton').on('click', async function () {
 // Función para compartir en WhatsApp al hacer clic en el botón
 $('#whatsappButton').on('click', function () {
   try {
-    // Obtener la lista de compra formateada
-    const formattedList = formatShoppingList();
+    // Obtener la lista de compra formateada para WhatsApp
+    const formattedListForWhatsApp = formatShoppingListForWhatsApp();
 
     // Abrir WhatsApp con el mensaje
-    const whatsappLink = 'whatsapp://send?text=' + encodeURIComponent(formattedList);
+    const whatsappLink = 'whatsapp://send?text=' + encodeURIComponent(formattedListForWhatsApp);
 
     // Redirigir a la aplicación de WhatsApp o abrir en una nueva ventana
     window.open(whatsappLink, '_blank');
