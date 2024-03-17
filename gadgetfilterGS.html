@@ -149,17 +149,30 @@
 ///});
 // fin evento clic para generar lista de compra
 
-//inicio Agregar evento clic para generar lista de compra    
+// Agregar evento clic para generar lista de compra
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
 
         // Verificar si la descripción del producto está definida
         if (data && data.DESCRIPCION) {
-            $('#quantityModal').modal('show'); // Mostrar el formulario modal
+            // Mostrar el formulario modal
+            $('#quantityModal').modal('show');
+
+            // Actualizar campos del modal con datos de la fila
+            try {
+                $('#priceInput').val(data.Precio || 'Precio no disponible');
+                if (data.Imagen) {
+                    $('#imageContainer').html('<img src="' + data.Imagen + '" alt="Imagen del producto">');
+                } else {
+                    $('#imageContainer').html('Imagen no disponible');
+                }
+            } catch (error) {
+                alert('Error al actualizar los campos del modal: ' + error.message);
+            }
 
             // Capturar el evento clic del botón "Agregar" en el formulario modal
-            $('#addQuantityBtn').on('click', function () {
+            $('#addQuantityBtn').off('click').on('click', function () {
                 try {
                     var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
                     if (!quantity || isNaN(quantity) || quantity <= 0) {
@@ -192,7 +205,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     }
 });
 
-  
 //:: fin Agregar evento clic para generar lista de compra
         
 // .
@@ -325,7 +337,7 @@ $('#whatsappButton').on('click', function () {
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="quantityModalLabel">Ingrese la cantidad</h5>
+        <h5 class="modal-title" id="quantityModalLabel">Detalles del Producto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -334,17 +346,26 @@ $('#whatsappButton').on('click', function () {
         <form id="quantityForm">
           <div class="form-group">
             <label for="quantityInput">Cantidad:</label>
-            <input type="number" class="form-control" id="quantityInput" required>
+            <input type="number" class="form-control" id="quantityInput" value="1" required>
+          </div>
+          <div class="form-group">
+            <label for="priceInput">Precio:</label>
+            <input type="text" class="form-control" id="priceInput" readonly>
+          </div>
+          <div class="form-group">
+            <label for="imageInput">Imagen:</label>
+            <div id="imageContainer"></div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary" id="addQuantityBtn">Agregar</button>
       </div>
     </div>
   </div>
 </div>
 <!-- Modal fin -->
+
 </body>
 </html>
