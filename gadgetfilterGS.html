@@ -128,41 +128,48 @@
 ///});
 // fin evento clic para generar lista de compra
 
-    //inicio Agregar evento clic para generar lista de compra    
-  $('#myDataTable tbody').on('click', 'tr', function () {
-  var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
+//inicio Agregar evento clic para generar lista de compra    
+$('#myDataTable tbody').on('click', 'tr', function () {
+    try {
+        var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
 
-  // Verificar si la descripción del producto está definida
-  if (data && data.DESCRIPCION) {
-    $('#quantityModal').modal('show'); // Mostrar el formulario modal
+        // Verificar si la descripción del producto está definida
+        if (data && data.DESCRIPCION) {
+            $('#quantityModal').modal('show'); // Mostrar el formulario modal
 
-    //:: Capturar el evento clic del botón "Agregar" en el formulario modal
-    $('#addQuantityBtn').on('click', function () {
-      var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-      if (!quantity || isNaN(quantity) || quantity <= 0) {
-        alert('La cantidad debe ser un número positivo.');
-        return;
-      }
+            // Capturar el evento clic del botón "Agregar" en el formulario modal
+            $('#addQuantityBtn').on('click', function () {
+                try {
+                    var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+                    if (!quantity || isNaN(quantity) || quantity <= 0) {
+                        alert('La cantidad debe ser un número positivo.');
+                        return;
+                    }
 
-      //:: La cantidad es válida, procede con el proceso de agregar a la lista de compra
-      var totalItem = parseFloat(data.Total) * parseInt(quantity);
-      totalPurchase += totalItem;
+                    // La cantidad es válida, procede con el proceso de agregar a la lista de compra
+                    var totalItem = parseFloat(data.Total) * parseInt(quantity);
+                    totalPurchase += totalItem;
 
-        shoppingList.push({
-        producto: data.DESCRIPCION,
-        cantidad: quantity,
-       total: totalItem.toFixed(2)
-      });
+                    shoppingList.push({
+                        producto: data.DESCRIPCION,
+                        cantidad: quantity,
+                        total: totalItem.toFixed(2)
+                    });
 
-      updateShoppingList();
+                    updateShoppingList();
 
-      $('#quantityModal').modal('hide'); // Ocultar el formulario modal
-    });
-  } else {
-    alert('Descripción del producto no definida. Intente de nuevo.');
-  }
-
- });
+                    $('#quantityModal').modal('hide'); // Ocultar el formulario modal
+                } catch (error) {
+                    alert('Error al agregar la cantidad: ' + error.message);
+                }
+            });
+        } else {
+            alert('Descripción del producto no definida. Intente de nuevo.');
+        }
+    } catch (error) {
+        alert('Error al procesar el clic en la tabla: ' + error.message);
+    }
+});
 //:: fin Agregar evento clic para generar lista de compra
         
 // .
