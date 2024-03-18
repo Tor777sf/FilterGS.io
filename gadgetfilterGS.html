@@ -87,29 +87,29 @@
 
 <script>
   $(document).ready(function () {
-// Descargar y parsear el archivo CSV
-Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
-  download: true,
-  header: true,
-  dynamicTyping: true,
-  complete: function (results) {
-    // Crear DataTable
-    var dataTable = $('#myDataTable').DataTable({
-      data: results.data,
-      columns: Object.keys(results.data[0]).map(function(key) {
-        return { data: key, title: key };
-      }),
-      columnDefs: [
-        {
-          targets: 10,
-          render: function (data, type, row) {
-            // Personalizar renderizado para la columna con enlaces no vacíos
-            return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="' + data + '" alt="Ver Foto" /></a>' : "";
-          }
-        }
-      ]
-    });
-  
+/   // Descargar y parsear el archivo CSV
+    Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      complete: function (results) {
+        // Crear DataTable
+        var dataTable = $('#myDataTable').DataTable({
+          data: results.data,
+          columns: Object.keys(results.data[0]).map(function(key) {
+            return { data: key, title: key };
+          }),
+          columnDefs: [
+            {
+              targets: 10,
+              render: function (data, type, row) {
+                // Personalizar renderizado para la columna con enlaces no vacíos
+                return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
+              }
+            }
+          ]
+        });
+
  
 
         // Nueva lista de compra
