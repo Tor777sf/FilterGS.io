@@ -149,6 +149,7 @@
 ///});
 // fin evento clic para generar lista de compra
 // Agregar evento clic para generar lista de compra
+$('#m// Agregar evento clic para generar lista de compra
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -162,8 +163,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             try {
                 $('#priceInput').val(data.Total || 'Precio no disponible');
                 if (data.ENLACES) {
-                    var imageURL = $(data.ENLACES).attr('href'); // Acceder al enlace de la imagen
-                    $('#imageContainer').html('<img src="' + imageURL + '" alt="Imagen del producto">');
+                    // Suponiendo que data.Imagen contiene la URL de la imagen
+                    $('#imageContainer').html('<img src="' + data.ENLACES + '" alt="Imagen del producto">');
                 } else {
                     $('#imageContainer').html('Imagen no disponible');
                 }
