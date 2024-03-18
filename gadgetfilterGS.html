@@ -160,9 +160,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
             // Actualizar campos del modal con datos de la fila
             try {
-                $('#priceInput').val(data.Precio || 'Precio no disponible');
-                if (data.Imagen) {
-                    var imageURL = $(data.Imagen).attr('href'); // Acceder al enlace de la imagen
+                $('#priceInput').val(data.Total || 'Precio no disponible');
+                if (data.ENLACES) {
+                    var imageURL = $(data.ENLACES).attr('href'); // Acceder al enlace de la imagen
                     $('#imageContainer').html('<img src="' + imageURL + '" alt="Imagen del producto">');
                 } else {
                     $('#imageContainer').html('Imagen no disponible');
