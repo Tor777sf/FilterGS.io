@@ -164,6 +164,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                 $('#priceInput').val(data.Total || 'Precio no disponible'); // Usar el encabezado correcto para el precio
                 var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
                 if (imageLink) {
+                    // Mostrar la imagen en el modal
                     $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
                 } else {
                     $('#imageContainer').html('Imagen no disponible');
@@ -205,7 +206,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
-
 
 
 //:: fin Agregar evento clic para generar lista de compra
