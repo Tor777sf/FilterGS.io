@@ -104,7 +104,7 @@
               targets: 10,
               render: function (data, type, row) {
                 // Personalizar renderizado para la columna con enlaces no vacíos
-                return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="ruta_del_icono.png" alt="Ver Foto" /></a>' : "";
+                return data && data !== "" ? '<a href="' + data + '" target="_blank"><img src="' + data + '" alt="Ver Foto" /></a>' : "";
               }
             }
           ]
