@@ -159,15 +159,12 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Mostrar el formulario modal
             $('#quantityModal').modal('show');
 
-            // Obtener el enlace de la imagen desde el texto del hipervínculo
-            var imageLink = $(this).find('a').attr('href');
-
             // Actualizar campos del modal con datos de la fila
             try {
-                $('#priceInput').val(data.Total || 'Precio no disponible'); // Usar el encabezado correcto para el precio
-                if (imageLink) {
-                    // Mostrar la imagen en el modal
-                    $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
+                $('#priceInput').val(data.Precio || 'Precio no disponible');
+                if (data.Imagen) {
+                    var imageURL = $(data.Imagen).attr('href');
+                    $('#imageContainer').html('<img src="' + imageURL + '" alt="Imagen del producto">');
                 } else {
                     $('#imageContainer').html('Imagen no disponible');
                 }
