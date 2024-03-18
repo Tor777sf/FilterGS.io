@@ -152,6 +152,7 @@
 // fin evento clic para generar lista de compra
         
 // Agregar evento clic para generar lista de compra
+$('#m// Agregar evento clic para generar lista de compra
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -161,12 +162,10 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Mostrar el formulario modal
             $('#quantityModal').modal('show');
 
-            // Obtener el enlace de la imagen desde el texto del hipervínculo
-            var imageLink = $(this).find('a').attr('href');
-
             // Actualizar campos del modal con datos de la fila
             try {
                 $('#priceInput').val(data.Total || 'Precio no disponible'); // Usar el encabezado correcto para el precio
+                var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
                 if (imageLink) {
                     // Mostrar la imagen en el modal
                     $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
@@ -210,7 +209,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
-
 
 //:: fin Agregar evento clic para generar lista de compra
         
