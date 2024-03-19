@@ -230,8 +230,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     shoppingList.push({
                         producto: data.DESCRIPCION,
                         cantidad: quantity,
-                        precio: price, // Agregar el precio modificado a la lista de compras
-                        total: (parseFloat(price) * parseInt(quantity)).toFixed(2)
+                        precio: previousPrice, // Agregar el precio modificado a la lista de compras
+                        total: totalItem.toFixed(2)
                     });
 
                     updateShoppingList();
