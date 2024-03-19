@@ -165,6 +165,36 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Actualizar campos del modal con datos de la fila
             try {
                 $('#priceInput').val(data.Total || 'Precio no disponible'); // Usar el encabezado correcto para el precio
+              // Capturar el evento clic del campo de precio para habilitar la edición
+$('#priceInput').click(function() {
+    $(this).removeAttr('readonly');
+}); 
+
+// Capturar el valor del precio antes de la edición
+var previousPrice;
+
+$('#priceInput').focus(function() {
+    previousPrice = $(this).val();
+});
+
+// Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
+$('#priceInput').blur(function() {
+    var newPrice = $(this).val();
+
+    // Verificar si el nuevo precio es menor que el precio anterior
+    if (parseFloat(newPrice) < parseFloat(previousPrice)) {
+        var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+        if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
+            // Calcular la nueva cantidad
+            var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
+            $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
+        }
+    }
+
+    // Volver a establecer el campo de precio como de solo lectura
+    $(this).attr('readonly', true);
+});// fin capturar evento clic en precio
+
                 var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
                 if (imageLink) {
                     // Mostrar la imagen en el modal
