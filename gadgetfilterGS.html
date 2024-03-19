@@ -179,7 +179,7 @@ $('#priceInput').change(function() {
         if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
             // Calcular la nueva cantidad
             var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
-     $(this).val(newPrice);
+     $('#priceInput').val(newPrice);
      $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
         
         }
