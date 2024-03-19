@@ -171,22 +171,6 @@ $('#priceInput').focus(function() {
 
 // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
 $('#priceInput').blur(function() {
-    var newPrice = $(this).val();
-
-    // Verificar si el nuevo precio es menor que el precio anterior
-    if (parseFloat(newPrice) < parseFloat(previousPrice)) {
-        var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-        if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
-            // Calcular la nueva cantidad
-            var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
-            $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
-        }
-    }
-
-    // Volver a establecer el campo de precio como de solo lectura
-    $(this).attr('readonly', true);
-});
-
 // Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
@@ -238,6 +222,14 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                 } catch (error) {
                     alert('Error al agregar la cantidad: ' + error.message);
                 }
+            });
+
+            // Capturar el evento clic del botón "Cerrar" en el formulario modal
+            $('#quantityModal').on('hidden.bs.modal', function () {
+                // Limpiar los campos del formulario modal al cerrar
+                $('#quantityInput').val(''); 
+                $('#priceInput').val(''); 
+                $('#imageContainer').html('');
             });
         } else {
             alert('Descripción del producto no definida. Intente de nuevo.');
