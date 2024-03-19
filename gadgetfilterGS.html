@@ -231,7 +231,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                         producto: data.DESCRIPCION,
                         cantidad: quantity,
                         precio: price, // Agregar el precio modificado a la lista de compras
-                        total: totalItem.toFixed(2)
+                        total: (parseFloat(price) * parseInt(quantity)).toFixed(2)
                     });
 
                     updateShoppingList();
