@@ -152,26 +152,7 @@
 // fin evento clic para generar lista de compra
         
 // Capturar el evento clic del campo de precio para habilitar la edición y permitir solo números
-$('#priceInput').click(function() {
-    $(this).removeAttr('readonly');
-}); 
-
-// Validar que solo se ingresen números durante la edición del precio
-$('#priceInput').on('input', function() {
-    var sanitized = $(this).val().replace(/[^0-9.]/g, '');
-    $(this).val(sanitized);
-});
-
-// Capturar el valor del precio antes de la edición
-var previousPrice;
-
-$('#priceInput').focus(function() {
-    previousPrice = $(this).val();
-});
-
-// Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
-$('#priceInput').blur(function() {
-// Capturar el evento clic al seleccionar un ítem en la tabla
+$('#p// Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -238,6 +219,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
+
 
 //:: fin Agregar evento clic para generar lista de compra
         
