@@ -152,6 +152,42 @@
 // fin evento clic para generar lista de compra
         
 // Capturar el evento clic del campo de precio para habilitar la edición y permitir solo números
+$('#priceInput').click(function() {
+    $(this).removeAttr('readonly');
+}); 
+
+// Validar que solo se ingresen números durante la edición del precio
+$('#priceInput').on('input', function() {
+    var sanitized = $(this).val().replace(/[^0-9.]/g, '');
+    $(this).val(sanitized);
+});
+
+// Capturar el valor del precio antes de la edición
+var previousPrice;
+
+$('#priceInput').focus(function() {
+    previousPrice = $(this).val();
+});
+
+// Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
+$('#priceInput').blur(function() {
+    var newPrice = $(this).val();
+
+    // Verificar si el nuevo precio es menor que el precio anterior
+    if (parseFloat(newPrice) < parseFloat(previousPrice)) {
+        var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+        if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
+            // Calcular la nueva cantidad
+            var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
+            $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
+        }
+    }
+
+    // Volver a establecer el campo de precio como de solo lectura
+    $(this).attr('readonly', true);
+});
+
+// Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -202,14 +238,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                 } catch (error) {
                     alert('Error al agregar la cantidad: ' + error.message);
                 }
-            });
-
-            // Capturar el evento clic del botón "Cerrar" en el formulario modal
-            $('#quantityModal').on('hidden.bs.modal', function () {
-                // Limpiar los campos del formulario modal al cerrar
-                $('#quantityInput').val(''); 
-                $('#priceInput').val(''); 
-                $('#imageContainer').html('');
             });
         } else {
             alert('Descripción del producto no definida. Intente de nuevo.');
