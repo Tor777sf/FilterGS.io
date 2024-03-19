@@ -224,7 +224,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     }
 
                     // La cantidad y el precio son válidos, procede con el proceso de agregar a la lista de compra
+                    //var totalItem = parseFloat(price) * parseInt(quantity);
                     var totalItem = parseFloat(price) * parseInt(quantity);
+
                     totalPurchase += totalItem;
 
                     shoppingList.push({
