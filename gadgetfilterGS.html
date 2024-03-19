@@ -170,7 +170,7 @@ $('#priceInput').focus(function() {
 });
 
 // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
-$('#priceInput').blur(function() {
+$('#priceInput').change(function() {
     var newPrice = $(this).val();
 
     // Verificar si el nuevo precio es menor que el precio anterior
