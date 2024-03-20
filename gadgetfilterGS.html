@@ -202,14 +202,14 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Actualizar campos del modal con datos de la fila
             try {
                 if (data.DESCRIPCION.toLowerCase().indexOf('.p') !== -1) {
-                    // Si la descripción contiene '.p', limpiar el campo de descripción
-                    $('#descriptionInput').val('').focus();
+                    // Si la descripción contiene '.p', limpiar el campo de descripción y habilitar la edición
+                    $('#descriptionInput').val('').removeAttr('readonly').focus();
                     // Establecer cantidad en 1, precio en 0.00 y limpiar campo de precio
                     $('#quantityInput').val('1');
                     $('#priceInput').val('0.00').attr('readonly', false);
                 } else {
                     // Si no contiene '.p', mostrar la descripción normalmente
-                    $('#descriptionInput').val(data.DESCRIPCION).focus();
+                    $('#descriptionInput').val(data.DESCRIPCION).attr('readonly', true).focus();
                     $('#priceInput').val(parseFloat(data.Total) || 'Precio no disponible'); // Usar el encabezado correcto para el precio
                 }
                 
