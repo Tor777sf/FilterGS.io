@@ -179,7 +179,7 @@ $('#priceInput').change(function() {
         if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
             // Calcular la nueva cantidad
             var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
-     $('#priceInput').val(newPrice);
+     
      $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
         
         }
@@ -225,7 +225,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
                     // La cantidad y el precio son válidos, procede con el proceso de agregar a la lista de compra
                     //var totalItem = parseFloat(price) * parseInt(quantity);
-                    var totalItem = parseFloat(price) * parseFloat(quantity);
+                    var totalItem = parseFloat(price) * parseInt(quantity);
 
                     totalPurchase += totalItem;
 
