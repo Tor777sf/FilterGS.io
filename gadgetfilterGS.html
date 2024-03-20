@@ -225,7 +225,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
                     // La cantidad y el precio son válidos, procede con el proceso de agregar a la lista de compra
                     //var totalItem = parseFloat(price) * parseInt(quantity);
-                    var totalItem = parseFloat(price) * parseInt(quantity);
+                    var totalItem = parseFloat(price) * parseFloat(quantity);
 
                     totalPurchase += totalItem;
 
@@ -233,7 +233,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                         producto: data.DESCRIPCION,
                         cantidad: quantity,
                         precio: previousPrice, // Agregar el precio modificado a la lista de compras
-                        total: totalItem.toFixed(2)
+                        total: totalItem.toFixed(2),
                     });
 
                     updateShoppingList();
@@ -342,14 +342,15 @@ $('#whatsappButton').on('click', function () {
 // fin botones Whatsapp y pdf
 
 
-                // Agregar evento cuando el modal se muestre
-        $('#quantityModal').on('shown.bs.modal', function () {
+          // Agregar evento cuando el modal se muestre
+            $('#quantityModal').on('shown.bs.modal', function () {
             // Establecer el valor predeterminado en 1
             $('#quantityInput').val('1');
             
             // Seleccionar todo el texto en el campo de cantidad
             $('#quantityInput').select();
-        });// fin agregar evento modal
+        });
+        // fin agregar evento modal
         
         
         // Función para actualizar la lista de compra en la interfaz
@@ -370,11 +371,12 @@ $('#whatsappButton').on('click', function () {
                '</li>';
 
             shoppingItems.append(listItem);
-          }
+          }//fin for
 
           // Actualizar el total de la compra global
           totalPurchaseElement.text('$' + totalPurchase.toFixed(2));
         }
+        //fin actualizar la lista compras
       }
     });
   });
