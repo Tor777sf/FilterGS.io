@@ -190,6 +190,7 @@ $('#priceInput').change(function() {
 });
 
 // Capturar el evento clic al seleccionar un ítem en la tabla
+// Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -198,6 +199,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         if (data && data.DESCRIPCION) {
             // Mostrar el formulario modal
             $('#quantityModal').modal('show');
+
+            // Mostrar la descripción del producto en el formulario modal
+            $('#descriptionInput').val(data.DESCRIPCION);
 
             // Actualizar campos del modal con datos de la fila
             try {
@@ -224,15 +228,14 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     }
 
                     // La cantidad y el precio son válidos, procede con el proceso de agregar a la lista de compra
-                    //var totalItem = parseFloat(price) * parseInt(quantity);
                     var totalItem = parseFloat(price) * parseFloat(quantity);
 
                     totalPurchase += totalItem;
 
                     shoppingList.push({
-                        producto: data.DESCRIPCION,
+                        producto: $('#descriptionInput').val(),
                         cantidad: quantity,
-                        precio: previousPrice, // Agregar el precio modificado a la lista de compras
+                        precio: parseFloat(price), // Usar el precio original, no el precio modificado
                         total: totalItem.toFixed(2),
                     });
 
@@ -250,7 +253,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
-
 
 //:: fin Agregar evento clic para generar lista de compra
         
@@ -395,7 +397,8 @@ $('#whatsappButton').on('click', function () {
       <div class="modal-body">
         <form id="quantityForm">
           <div class="form-group">
-            <p>Descripción del producto: <span id="descriptionSpan"></span></p>
+            <label for="descriptionInput">Descripción:</label>
+            <input type="text" class="form-control" id="descriptionInput" readonly>
           </div>
           <div class="form-group">
             <label for="quantityInput">Cantidad:</label>
