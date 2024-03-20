@@ -190,7 +190,6 @@ $('#priceInput').change(function() {
 });
 
 // Capturar el evento clic al seleccionar un ítem en la tabla
-// Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -200,12 +199,19 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Mostrar el formulario modal
             $('#quantityModal').modal('show');
 
-            // Mostrar la descripción del producto en el formulario modal
-            $('#descriptionInput').val(data.DESCRIPCION);
+            // Limpiar y enfocar el campo de descripción
+            $('#descriptionInput').val('').focus();
 
             // Actualizar campos del modal con datos de la fila
             try {
-                $('#priceInput').val(parseFloat(data.Total) || 'Precio no disponible'); // Usar el encabezado correcto para el precio
+                if (data.DESCRIPCION.toLowerCase().indexOf('.p') !== -1) {
+                    // Si la descripción contiene '.p', establecer cantidad en 1, precio en 0.00 y limpiar campo de precio
+                    $('#quantityInput').val('1');
+                    $('#priceInput').val('0.00').attr('readonly', false);
+                } else {
+                    $('#priceInput').val(parseFloat(data.Total) || 'Precio no disponible'); // Usar el encabezado correcto para el precio
+                }
+                
                 var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
                 if (imageLink) {
                     // Mostrar la imagen en el modal
@@ -222,7 +228,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                 try {
                     var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
                     var price = $('#priceInput').val(); // Obtener el precio
-                    if (!quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price <= 0) {
+                    if (!quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price < 0) {
                         alert('La cantidad y el precio deben ser números positivos.');
                         return;
                     }
