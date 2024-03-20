@@ -190,6 +190,7 @@ $('#priceInput').change(function() {
 });
 
 // Capturar el evento clic al seleccionar un ítem en la tabla
+$('#m// Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -199,16 +200,17 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Mostrar el formulario modal
             $('#quantityModal').modal('show');
 
-            // Limpiar y enfocar el campo de descripción
-            $('#descriptionInput').val('').focus();
-
             // Actualizar campos del modal con datos de la fila
             try {
                 if (data.DESCRIPCION.toLowerCase().indexOf('.p') !== -1) {
-                    // Si la descripción contiene '.p', establecer cantidad en 1, precio en 0.00 y limpiar campo de precio
+                    // Si la descripción contiene '.p', limpiar el campo de descripción
+                    $('#descriptionInput').val('').focus();
+                    // Establecer cantidad en 1, precio en 0.00 y limpiar campo de precio
                     $('#quantityInput').val('1');
                     $('#priceInput').val('0.00').attr('readonly', false);
                 } else {
+                    // Si no contiene '.p', mostrar la descripción normalmente
+                    $('#descriptionInput').val(data.DESCRIPCION).focus();
                     $('#priceInput').val(parseFloat(data.Total) || 'Precio no disponible'); // Usar el encabezado correcto para el precio
                 }
                 
