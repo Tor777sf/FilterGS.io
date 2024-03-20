@@ -190,38 +190,20 @@ $('#priceInput').change(function() {
 });
 
 // Capturar el evento clic al seleccionar un ítem en la tabla
-// Variable para almacenar los detalles del último producto seleccionado
-var lastSelectedProduct = null;
+// Variable para almacenar la configuración inicial del modal
+var initialModalSettings = {
+    description: "",
+    quantity: "1",
+    price: "0.00",
+    readonly: true
+};
 
 // Capturar el evento mostrado del modal
 $('#quantityModal').on('shown.bs.modal', function () {
-    // Verificar si hay un último producto seleccionado
-    if (lastSelectedProduct) {
-        // Actualizar campos del modal con los datos del último producto seleccionado
-        try {
-            if (lastSelectedProduct.DESCRIPCION.toLowerCase().indexOf('.p') !== -1) {
-                // Si la descripción contiene '.p', limpiar el campo de descripción y habilitar la edición
-                $('#descriptionInput').val('').removeAttr('readonly').focus();
-                // Establecer cantidad en 1, precio en 0.00 y limpiar campo de precio
-                $('#quantityInput').val('1');
-                $('#priceInput').val('0.00').attr('readonly', false);
-            } else {
-                // Si no contiene '.p', mostrar la descripción normalmente
-                $('#descriptionInput').val(lastSelectedProduct.DESCRIPCION).attr('readonly', true).focus();
-                $('#priceInput').val(parseFloat(lastSelectedProduct.Total) || 'Precio no disponible'); // Usar el encabezado correcto para el precio
-            }
-            
-            var imageLink = lastSelectedProduct.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
-            if (imageLink) {
-                // Mostrar la imagen en el modal
-                $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
-            } else {
-                $('#imageContainer').html('Imagen no disponible');
-            }
-        } catch (error) {
-            alert('Error al actualizar los campos del modal: ' + error.message);
-        }
-    }
+    // Restaurar la configuración inicial del modal
+    $('#descriptionInput').val(initialModalSettings.description);
+    $('#quantityInput').val(initialModalSettings.quantity);
+    $('#priceInput').val(initialModalSettings.price).attr('readonly', initialModalSettings.readonly);
 });
 
 // Capturar el evento clic al seleccionar un ítem en la tabla
@@ -231,11 +213,39 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
         // Verificar si la descripción del producto está definida
         if (data && data.DESCRIPCION) {
-            // Actualizar el último producto seleccionado
-            lastSelectedProduct = data;
-
             // Mostrar el formulario modal
             $('#quantityModal').modal('show');
+
+            // Actualizar campos del modal con datos de la fila
+            try {
+                if (data.DESCRIPCION.toLowerCase().indexOf('.p') !== -1) {
+                    // Si la descripción contiene '.p', establecer la configuración inicial correspondiente
+                    initialModalSettings = {
+                        description: "",
+                        quantity: "1",
+                        price: "0.00",
+                        readonly: false
+                    };
+                } else {
+                    // Si no contiene '.p', establecer la descripción y otros campos normalmente
+                    initialModalSettings = {
+                        description: data.DESCRIPCION,
+                        quantity: "1",
+                        price: parseFloat(data.Total) || 'Precio no disponible',
+                        readonly: true
+                    };
+                }
+                
+                var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
+                if (imageLink) {
+                    // Mostrar la imagen en el modal
+                    $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
+                } else {
+                    $('#imageContainer').html('Imagen no disponible');
+                }
+            } catch (error) {
+                alert('Error al actualizar los campos del modal: ' + error.message);
+            }
         } else {
             alert('Descripción del producto no definida. Intente de nuevo.');
         }
@@ -244,9 +254,34 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     }
 });
 
-// Limpiar los detalles del último producto seleccionado al cerrar el modal
-$('#quantityModal').on('hidden.bs.modal', function () {
-    lastSelectedProduct = null;
+// Capturar el evento clic del botón "Agregar" en el formulario modal
+$('#addQuantityBtn').off('click').on('click', function () {
+    try {
+        var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+        var price = $('#priceInput').val(); // Obtener el precio
+        if (!quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price < 0) {
+            alert('La cantidad y el precio deben ser números positivos.');
+            return;
+        }
+
+        // La cantidad y el precio son válidos, procede con el proceso de agregar a la lista de compra
+        var totalItem = parseFloat(price) * parseFloat(quantity);
+
+        totalPurchase += totalItem;
+
+        shoppingList.push({
+            producto: $('#descriptionInput').val(),
+            cantidad: quantity,
+            precio: parseFloat(price), // Usar el precio original, no el precio modificado
+            total: totalItem.toFixed(2),
+        });
+
+        updateShoppingList();
+
+        $('#quantityModal').modal('hide'); // Ocultar el formulario modal
+    } catch (error) {
+        alert('Error al agregar la cantidad: ' + error.message);
+    }
 });
 
 //:: fin Agregar evento clic para generar lista de compra
