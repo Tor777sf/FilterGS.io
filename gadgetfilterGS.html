@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Sheet CSV</title>
-<!-- Bulma CSS -->
+
+  <!--  LIBRERIAS -->
+  <!-- Bulma CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 
 <!-- jQuery -->
@@ -37,7 +39,9 @@
 
 <!-- jsPDF JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
+  <!-- FIN  LIBRERIAS -->
+  
+  <!--  DISEÑO Y ESTRUCTURA WEB--> 
   <style>
     /* Coloca aquí el bloque de estilos CSS */
     .shopping-item {
@@ -63,10 +67,13 @@
       text-align: right;
     }
   </style>
-
+  <!-- FIN DISEÑO Y ESTRUCTURA WEB-->
+  
 </head>
 <body>
-
+  
+  <!--  DISEÑO Y ESTRUCTURA WEB-->
+  
 <!-- Nueva sección para la lista de compra -->
 <div id="shoppingList">
   <h2>Lista de Compra</h2>
@@ -83,9 +90,12 @@
   <!-- DataTable content will be dynamically generated here -->
 </table>
 
-
+  <!--  FIN DISEÑO Y ESTRUCTURA WEB-->
 
 <script>
+  
+    <!--  DISEÑO Y ESTRUCTURA WEB-->
+      
   $(document).ready(function () {
    // Descargar y parsear el archivo CSV
     Papa.parse('https://docs.google.com/spreadsheets/d/1X0WN5st8Bl6G6_QPtC9gS6vY4PyFR5dAjXxWU7UiOYE/export?format=csv&gid=0', {
@@ -115,41 +125,12 @@
         // Nueva lista de compra
         var shoppingList = [];
         var totalPurchase = 0;
-
+        
+  <!-- FIN DISEÑO Y ESTRUCTURA WEB-->
 // ...
 
 // Agregar evento clic para generar lista de compra
 ///$('#myDataTable tbody').on('click', 'tr', function () {
-///  var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
-
-  // Verificar si la descripción del producto está definida
-///  if (data && data.DESCRIPCION) {
-    // Pedir al usuario ingresar la cantidad
-///    var quantity = prompt('Ingrese la cantidad para "' + data.DESCRIPCION + '":', 1);
-
-    
- ///   if (quantity !== null && !isNaN(quantity) && quantity > 0) {
-      // Calcular el total por producto y por línea
-    ///  var totalItem = parseFloat(data.Total) * parseInt(quantity);
-    ///  totalPurchase += totalItem;
-
-      // Agregar a la lista de compra y mostrar el total
-    ///  shoppingList.push({
-    ///    producto: data.DESCRIPCION,
-     ///   cantidad: quantity,
-    ///    total: totalItem.toFixed(2)
-     /// });
-
-      // Actualizar la lista de compra y el total global en la interfaz
-   ///   updateShoppingList();
- ///   } else {
-    ///  alert('Cantidad no válida. Intente de nuevo.');
-  ///  }
-///  } else {
- ///   alert('Descripción del producto no definida. Intente de nuevo.');
-///  }
-///});
-// fin evento clic para generar lista de compra
         
 // Capturar el evento clic del campo de precio para habilitar la edición y permitir solo números
 $('#priceInput').click(function() {
