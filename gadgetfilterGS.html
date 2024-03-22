@@ -203,6 +203,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     };
                       // Establecer el foco en el campo de descripción
                       $('#descriptionInput').focus();
+                      $('#descriptionInput').select();
 
                 } else {
                     // Si no contiene '.p', establecer la descripción y otros campos normalmente
@@ -364,6 +365,8 @@ $('#whatsappButton').on('click', function () {
 
 
           // Agregar evento cuando el modal se muestre
+
+  
             $('#quantityModal').on('shown.bs.modal', function () {
             // Establecer el valor predeterminado en 1
             $('#quantityInput').val('1');
