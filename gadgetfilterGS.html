@@ -249,6 +249,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
 // Capturar el evento mostrado del modal
 $('#quantityModal').on('shown.bs.modal', function () {
+  $('#quantityInput').attr('readonly', false);
+  $('#priceInput').attr('readonly', false);
+
     // No es necesario establecer la configuración inicial del modal aquí, ya que se establece cuando se hace clic en un ítem en la tabla
 });
 
