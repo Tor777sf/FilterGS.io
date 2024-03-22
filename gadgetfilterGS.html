@@ -164,13 +164,13 @@ $('#priceInput').change(function() {
             // Calcular la nueva cantidad
             var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
      
-            $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
+            $('#quantityInput').val(newQuantity); //.toFixed(6) Actualizar el campo de cantidad
         }
     }
     // Si el nuevo precio es mayor o igual que el precio anterior
     else {
         var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
-        $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
+        $('#quantityInput').val(newQuantity); //.toFixed(6) Actualizar el campo de cantidad
     }
 
     // Bloquear la escritura en el campo de cantidad
