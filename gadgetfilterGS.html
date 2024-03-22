@@ -156,6 +156,10 @@ $('#priceInput').focus(function() {
 $('#priceInput').change(function() {
     var newPrice = $(this).val();
 
+    // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
+$('#priceInput').change(function() {
+    var newPrice = $(this).val();
+
     // Verificar si el nuevo precio es menor que el precio anterior
     if (parseFloat(newPrice) < parseFloat(previousPrice)) {
         var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
@@ -163,15 +167,20 @@ $('#priceInput').change(function() {
             // Calcular la nueva cantidad
             var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
      
-     $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
-        
+            $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
         }
+    }
+    // Si el nuevo precio es mayor o igual que el precio anterior
+    else {
+        var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
+        $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
     }
 
     // Volver a establecer el campo de precio como de solo lectura
     $(this).attr('readonly', true);
 });
 
+  
 // Variable para almacenar la configuración inicial del modal
 var initialModalSettings = {
     description: "",
