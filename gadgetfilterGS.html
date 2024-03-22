@@ -219,8 +219,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     initialModalSettings = {
                         description: data.DESCRIPCION,
                         quantity: "1",
-                        price: data.Total() || 'Precio no disponible',
-                        //readonly: false
+                        //price: data.Total() || 'Precio no disponoble';
+                        price: parseFloat(data.Total) || 'Precio no disponible'
+                      //readonly: false
                     };
                 }
                 
