@@ -152,6 +152,11 @@ $('#priceInput').on('input', function() {
    // previousPrice = $(this).val();
 //});
 
+// Cuando se produce un cambio en el campo de cantidad
+$('#quantityInput').change(function() {
+    // Establecer el campo de precio al valor previo almacenado en previousPrice
+    $('#priceInput').val(previousPrice);
+});
 
     // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
 $('#priceInput').change(function() {
