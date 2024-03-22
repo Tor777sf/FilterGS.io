@@ -193,8 +193,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
             // Actualizar campos del modal con datos de la fila
             try {
-                if (data.DESCRIPCION.toLowerCase().indexOf('.p') !== -1) {
-                    // Si la descripción contiene '.p', establecer la configuración inicial correspondiente
+                if (data.DESCRIPCION.toLowerCase() === '.p') {
+                  // Si la descripción es igual a '.p'
+                   
                     initialModalSettings = {
                         description: "",
                         quantity: "1",
