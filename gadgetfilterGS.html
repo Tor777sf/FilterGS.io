@@ -135,9 +135,9 @@
 ///$('#myDataTable tbody').on('click', 'tr', function () {
         
 // Capturar el evento clic del campo de precio para habilitar la edición y permitir solo números
-$('#priceInput').click(function() {
-    $(this).removeAttr('readonly');
-}); 
+//$('#priceInput').click(function() {
+    //$(this).removeAttr('readonly');
+//}); 
 
 // Validar que solo se ingresen números durante la edición del precio
 $('#priceInput').on('input', function() {
@@ -172,6 +172,9 @@ $('#priceInput').change(function() {
         var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
         $('#quantityInput').val(newQuantity.toFixed(2)); // Actualizar el campo de cantidad
     }
+
+    // Bloquear la escritura en el campo de cantidad
+    $('#quantityInput').attr('readonly', true);
 
     // Volver a establecer el campo de precio como de solo lectura
     $(this).attr('readonly', true);
