@@ -146,11 +146,11 @@ $('#priceInput').on('input', function() {
 });
 
 // Capturar el valor del precio antes de la edición
-var previousPrice;
+//var previousPrice;
 
-$('#priceInput').focus(function() {
-    previousPrice = $(this).val();
-});
+//$('#priceInput').focus(function() {
+   // previousPrice = $(this).val();
+//});
 
 
     // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
@@ -174,10 +174,10 @@ $('#priceInput').change(function() {
     }
 
     // Bloquear la escritura en el campo de cantidad
-    $('#quantityInput').attr('readonly', true);
+   // $('#quantityInput').attr('readonly', true);
 
     // Volver a establecer el campo de precio como de solo lectura
-    $(this).attr('readonly', true);
+    //$(this).attr('readonly', true);
 });
 
   
@@ -247,20 +247,25 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     }
 });
 
+// Definir la variable previousPrice fuera del alcance de los eventos
+var previousPrice;
+
 // Capturar el evento mostrado del modal
 $('#quantityModal').on('shown.bs.modal', function () {
-  $('#quantityInput').attr('readonly', false);
-  $('#priceInput').attr('readonly', false);
+    $('#quantityInput').attr('readonly', false);
+    $('#priceInput').attr('readonly', false);
 
-    // No es necesario establecer la configuración inicial del modal aquí, ya que se establece cuando se hace clic en un ítem en la tabla
+    // Llenar previousPrice solo cuando se muestra el modal
+    previousPrice = $('#priceInput').val();
 });
+
 
 
 // Capturar el evento clic del botón "Agregar" en el formulario modal
 $('#addQuantityBtn').off('click').on('click', function () {
     try {
         var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-        var price = $('#priceInput').val(); // Obtener el precio
+        var price = previousPrice; // Obtener el precio
         if (!quantity || isNaN(quantity) || quantity <= 0) {
              quantity = 0;
          }
