@@ -284,7 +284,7 @@ $('#addQuantityBtn').off('click').on('click', function () {
 
         shoppingList.push({
             producto: $('#descriptionInput').val(),
-            cantidad: quantity,
+            cantidad: quantity.toFixed(6),
             precio: parseFloat(price), // Usar el precio original, no el precio modificado
             total: totalItem.toFixed(2),
         });
