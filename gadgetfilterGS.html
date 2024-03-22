@@ -249,9 +249,12 @@ $('#addQuantityBtn').off('click').on('click', function () {
     try {
         var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
         var price = $('#priceInput').val(); // Obtener el precio
-        if (!quantity || isNaN(quantity) || quantity <= 0 || !price || isNaN(price) || price < 0) {
-            alert('La cantidad y el precio deben ser números positivos.');
-            return;
+        if (!quantity || isNaN(quantity) || quantity <= 0) {
+             quantity = 0;
+         }
+
+        if (!price || isNaN(price) || price < 0) {
+          price = 0.00;
         }
 
         // La cantidad y el precio son válidos, procede con el proceso de agregar a la lista de compra
