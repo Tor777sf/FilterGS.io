@@ -181,14 +181,6 @@ var initialModalSettings = {
     readonly: true
 };
 
-// Capturar el evento mostrado del modal
-$('#quantityModal').on('shown.bs.modal', function () {
-    // Restaurar la configuración inicial del modal
-    $('#descriptionInput').val(initialModalSettings.description);
-    $('#quantityInput').val(initialModalSettings.quantity);
-    $('#priceInput').val(initialModalSettings.price).attr('readonly', initialModalSettings.readonly);
-});
-
 // Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
@@ -219,6 +211,11 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     };
                 }
                 
+                // Restaurar la configuración inicial del modal
+                $('#descriptionInput').val(initialModalSettings.description);
+                $('#quantityInput').val(initialModalSettings.quantity);
+                $('#priceInput').val(initialModalSettings.price).attr('readonly', initialModalSettings.readonly);
+
                 var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
                 if (imageLink) {
                     // Mostrar la imagen en el modal
@@ -236,6 +233,12 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
+
+// Capturar el evento mostrado del modal
+$('#quantityModal').on('shown.bs.modal', function () {
+    // No es necesario establecer la configuración inicial del modal aquí, ya que se establece cuando se hace clic en un ítem en la tabla
+});
+
 
 // Capturar el evento clic del botón "Agregar" en el formulario modal
 $('#addQuantityBtn').off('click').on('click', function () {
