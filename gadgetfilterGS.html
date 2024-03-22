@@ -194,17 +194,17 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             try {
                 if (data.DESCRIPCION.toLowerCase() === '.p') {
                   // Si la descripción es igual a '.p'
-                   
+                     $('#descriptionInput').focus();
+                    //  $('#descriptionInput').select();
+
                     initialModalSettings = {
                         description: "",
                         quantity: "1",
                         price: "0.00",
                         //readonly: false
                     };
-                      // Establecer el foco en el campo de descripción
-                      $('#descriptionInput').focus();
-                      $('#descriptionInput').select();
-
+                      
+                      
                 } else {
                     // Si no contiene '.p', establecer la descripción y otros campos normalmente
                     initialModalSettings = {
