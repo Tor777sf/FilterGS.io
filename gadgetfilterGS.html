@@ -194,7 +194,6 @@ var initialModalSettings = {
    // readonly: false
 };
 
-// Capturar el evento clic al seleccionar un ítem en la tabla
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -207,69 +206,46 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             // Actualizar campos del modal con datos de la fila
             try {
                 if (data.DESCRIPCION.toLowerCase() === '.p') {
-                  // Si la descripción es igual a '.p'
-                     $('#descriptionInput').focus();
-                    //  $('#descriptionInput').select();
-
-                    initialModalSettings = {
-                        description: "",
-                        quantity: "1",
-                        price: "0.00",
-                        //readonly: false
-                    };
-                      
-                      
+                    // Si la descripción es igual a '.p', establecer configuración especial
+                    $('#descriptionInput').focus();
+                    // Resto de la configuración para ítems con descripción '.p'
                 } else {
                     // Si no contiene '.p', establecer la descripción y otros campos normalmente
                     // Asignar el valor de data.Total a la variable priceValue
-                   let priceValue = data.Total;
+                    let priceValue = data.Total;
 
-                   // Verificar si priceValue es una cadena de texto y reemplazar ',' por '.'
-                   if (typeof priceValue === 'string' && priceValue.includes(',')) {
-                   priceValue = priceValue.replace(',', '.');
-                   }
+                    // Verificar si priceValue es una cadena de texto y reemplazar ',' por '.'
+                    if (typeof priceValue === 'string' && priceValue.includes(',')) {
+                        priceValue = priceValue.replace(',', '.');
+                    }
 
-                   // Convertir el valor a un número flotante usando parseFloat
-                   let price = parseFloat(priceValue);
+                    // Convertir el valor a un número flotante usando parseFloat
+                    let price = parseFloat(priceValue);
 
-                   // Si no se puede convertir o el valor es NaN, establecer 'Precio no disponible'
-                   if (isNaN(price)) {
-                  price = 'Precio no disponible';
-              //
-                   
-                   }
+                    // Si no se puede convertir o el valor es NaN, establecer 'Precio no disponible'
+                    if (isNaN(price)) {
+                        price = 'Precio no disponible';
+                    }
 
-                  // Ahora, 'price' contendrá el precio correctamente o 'Precio no disponible' si hay un problema
+                    // Asignar otros valores a initialModalSettings
+                    let initialModalSettings = {
+                        description: data.DESCRIPCION,
+                        quantity: "1",
+                        price: price, // Usar el precio calculado anteriormente
+                    };
 
-                 
-                 //Asignar otros valores a initialModalSettings
-                 let initialModalSettings = {
-                 description: data.DESCRIPCION,
-                 quantity: "1",
-                 price: price, // Usar el precio calculado anteriormente
-                };
-                        ///initialModalSettings = {
-                     ///   description: data.DESCRIPCION,
-                    ///    quantity: "1",
-                        //price: data.Total() || 'Precio no disponoble';
-                    ///    price: parseFloat(data.Total.replace(',', '.')) || 'Precio no disponible'
-                        //var price = parseFloat(data.Total.replace(',', '.'));
- 
-                      //readonly: false
-                  ///  };
-                }
-                
-                // Restaurar la configuración inicial del modal
-                $('#descriptionInput').val(initialModalSettings.description);
-                $('#quantityInput').val(initialModalSettings.quantity);
-                $('#priceInput').val(initialModalSettings.price).attr('readonly', initialModalSettings.readonly);
+                    // Restaurar la configuración inicial del modal
+                    $('#descriptionInput').val(initialModalSettings.description);
+                    $('#quantityInput').val(initialModalSettings.quantity);
+                    $('#priceInput').val(initialModalSettings.price);
 
-                var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
-                if (imageLink) {
-                    // Mostrar la imagen en el modal
-                    $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
-                } else {
-                    $('#imageContainer').html('Imagen no disponible');
+                    var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
+                    if (imageLink) {
+                        // Mostrar la imagen en el modal
+                        $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
+                    } else {
+                        $('#imageContainer').html('Imagen no disponible');
+                    }
                 }
             } catch (error) {
                 alert('Error al actualizar los campos del modal: ' + error.message);
@@ -282,6 +258,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     }
 });
 
+////////////////////////////////
 // Definir la variable previousPrice fuera del alcance de los eventos
 var previousPrice;
 
