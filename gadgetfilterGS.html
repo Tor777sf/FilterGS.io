@@ -229,8 +229,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     }
 
                     // Convertir el valor a un número flotante usando parseFloat
-                    let price = parseFloat(priceValue);
-
+                    //let price = parseFloat(priceValue);
+                    price = parseFloat(priceValue);
                     // Si no se puede convertir o el valor es NaN, establecer 'Precio no disponible'
                     if (isNaN(price)) {
                         price = 'Precio no disponible';
