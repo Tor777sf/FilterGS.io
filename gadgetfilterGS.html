@@ -222,30 +222,38 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                 } else {
                     // Si no contiene '.p', establecer la descripción y otros campos normalmente
                     // Asignar el valor de data.Total a la variable priceValue
-                   let priceValue = data.Total;
+              //     let priceValue = data.Total;
 
                    // Verificar si priceValue es una cadena de texto y reemplazar ',' por '.'
-                   if (typeof priceValue === 'string' && priceValue.includes(',')) {
-                   priceValue = priceValue.replace(',', '.');
-                   }
+              //     if (typeof priceValue === 'string' && priceValue.includes(',')) {
+             //      priceValue = priceValue.replace(',', '.');
+              //     }
 
                    // Convertir el valor a un número flotante usando parseFloat
-                   let price = parseFloat(priceValue);
+              //     let price = parseFloat(priceValue);
 
                    // Si no se puede convertir o el valor es NaN, establecer 'Precio no disponible'
-                   if (isNaN(price)) {
-                  price = 'Precio no disponible';
-                  }
+              //     if (isNaN(price)) {
+              //    price = 'Precio no disponible';
+              //    }
 
                   // Ahora, 'price' contendrá el precio correctamente o 'Precio no disponible' si hay un problema
 
                  // Asignar otros valores a initialModalSettings
-                 let initialModalSettings = {
-                 description: data.DESCRIPCION,
-                 quantity: "1",
-                 price: price, // Usar el precio calculado anteriormente
-                }
-
+              //   let initialModalSettings = {
+             //    description: data.DESCRIPCION,
+               //  quantity: "1",
+              //   price: price, // Usar el precio calculado anteriormente
+               // };
+                        initialModalSettings = {
+                        description: data.DESCRIPCION,
+                        quantity: "1",
+                        //price: data.Total() || 'Precio no disponoble';
+                        price: parseFloat(data.Total.replace(',', '.')) || 'Precio no disponible'
+                        //var price = parseFloat(data.Total.replace(',', '.'));
+ 
+                      //readonly: false
+                    };
                 }
                 
                 // Restaurar la configuración inicial del modal
