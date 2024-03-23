@@ -193,7 +193,8 @@ var initialModalSettings = {
     price: "0.00",
    // readonly: false
 };
-
+/////////////////////////////////
+        // Al hacer clic en algun item
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -209,6 +210,11 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     // Si la descripción es igual a '.p', establecer configuración especial
                     $('#descriptionInput').focus();
                     // Resto de la configuración para ítems con descripción '.p'
+                    let initialModalSettings = {
+                        description: "",
+                        quantity: "1",
+                        price: "0.00",
+                    };
                 } else {
                     // Si no contiene '.p', establecer la descripción y otros campos normalmente
                     // Asignar el valor de data.Total a la variable priceValue
@@ -257,6 +263,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
+
 
 ////////////////////////////////
 // Definir la variable previousPrice fuera del alcance de los eventos
