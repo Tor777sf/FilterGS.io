@@ -199,6 +199,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
 
+        // Declarar initialModalSettings fuera del bloque if
+        let initialModalSettings;
+
         // Verificar si la descripción del producto está definida
         if (data && data.DESCRIPCION) {
             // Mostrar el formulario modal
@@ -210,7 +213,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     // Si la descripción es igual a '.p', establecer configuración especial
                     $('#descriptionInput').focus();
                     // Resto de la configuración para ítems con descripción '.p'
-                    let initialModalSettings = {
+                    initialModalSettings = {
                         description: "",
                         quantity: "1",
                         price: "0.00",
@@ -234,7 +237,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     }
 
                     // Asignar otros valores a initialModalSettings
-                    let initialModalSettings = {
+                    initialModalSettings = {
                         description: data.DESCRIPCION,
                         quantity: "1",
                         price: price, // Usar el precio calculado anteriormente
@@ -263,7 +266,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
         alert('Error al procesar el clic en la tabla: ' + error.message);
     }
 });
-
 
 ////////////////////////////////
 // Definir la variable previousPrice fuera del alcance de los eventos
