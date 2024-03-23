@@ -139,68 +139,11 @@
     //$(this).removeAttr('readonly');
 //}); 
 
-// Validar que solo se ingresen números durante la edición del precio
-$('#priceInput').on('input', function() {
-    var sanitized = $(this).val().replace(/[^0-9.]/g, '');
-    $(this).val(sanitized);
-});
-
-// Capturar el valor del precio antes de la edición
-//var previousPrice;
-
-//$('#priceInput').focus(function() {
-   // previousPrice = $(this).val();
-//});
-
-// Cuando se produce un cambio en el campo de cantidad
-$('#quantityInput').change(function() {
-    // Establecer el campo de precio al valor previo almacenado en previousPrice
-    $('#priceInput').val(previousPrice);
-});
-
-    // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
-$('#priceInput').change(function() {
-    var newPrice = $(this).val();
-
-    // Verificar si el nuevo precio es menor que el precio anterior
-    if (parseFloat(newPrice) < parseFloat(previousPrice)) {
-        var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-        if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
-            // Calcular la nueva cantidad
-            var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
-     
-            $('#quantityInput').val(newQuantity); //.toFixed(6) Actualizar el campo de cantidad
-        }
-    }
-    // Si el nuevo precio es mayor o igual que el precio anterior
-    else {
-        var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
-        $('#quantityInput').val(newQuantity); //.toFixed(6) Actualizar el campo de cantidad
-    }
-
-    // Bloquear la escritura en el campo de cantidad
-   // $('#quantityInput').attr('readonly', true);
-
-    // Volver a establecer el campo de precio como de solo lectura
-    //$(this).attr('readonly', true);
-});
-
-  
-// Variable para almacenar la configuración inicial del modal
-///var initialModalSettings = {
-    ///description: "",
- ///   quantity: "1",
- ///   price: "0.00",
-   // readonly: false
-///};
-/////////////////////////////////
-        // Al hacer clic en algun item
+  //////////////////////////////////////////////////////////////
+// Al hacer clic en algún item
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
-
-        // Declarar initialModalSettings fuera del bloque if
-        let initialModalSettings;
 
         // Verificar si la descripción del producto está definida
         if (data && data.DESCRIPCION) {
@@ -211,13 +154,9 @@ $('#myDataTable tbody').on('click', 'tr', function () {
             try {
                 if (data.DESCRIPCION.toLowerCase() === 'xp') {
                     // Si la descripción es igual a 'xp', establecer configuración especial
-                    $('#descriptionInput').focus();
-                    // Resto de la configuración para ítems con descripción '.p'
-                    initialModalSettings = {
-                        description: "",
-                        quantity: "1",
-                        price: "0.00",
-                    };
+                    $('#descriptionInput').val(""); // Establecer descripción como vacío
+                    $('#quantityInput').val("1"); // Establecer cantidad como 1
+                    $('#priceInput').val("0.00"); // Establecer precio como 0.00
                 } else {
                     // Si no contiene 'xp', establecer la descripción y otros campos normalmente
                     // Asignar el valor de data.Total a la variable priceValue
@@ -230,31 +169,38 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
                     // Convertir el valor a un número flotante usando parseFloat
                     let price = parseFloat(priceValue);
-                    //price = parseFloat(priceValue);
                     // Si no se puede convertir o el valor es NaN, establecer 'Precio no disponible'
                     if (isNaN(price)) {
                         price = 'Precio no disponible';
                     }
 
-                    // Asignar otros valores a initialModalSettings
-                    initialModalSettings = {
-                        description: data.DESCRIPCION,
-                        quantity: "1",
-                        price: price, // Usar el precio calculado anteriormente
-                    };
+                    // Asignar otros valores a los campos del modal
+                    $('#descriptionInput').val(data.DESCRIPCION);
+                    $('#quantityInput').val("1");
+                    $('#priceInput').val(price); // Usar el precio calculado anteriormente
 
-                    // Restaurar la configuración inicial del modal
-                    $('#descriptionInput').val(initialModalSettings.description);
-                    $('#quantityInput').val(initialModalSettings.quantity);
-                    $('#priceInput').val(initialModalSettings.price);
+                    // Capturar el valor del precio antes de la edición
+                    var previousPrice = price;
 
-                    var imageLink = data.ENLACES; // Obtener el enlace de la imagen directamente de la columna "ENLACES"
-                    if (imageLink) {
-                        // Mostrar la imagen en el modal
-                        $('#imageContainer').html('<img src="' + imageLink + '" alt="Imagen del producto">');
-                    } else {
-                        $('#imageContainer').html('Imagen no disponible');
-                    }
+                    // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
+                    $('#priceInput').change(function() {
+                        var newPrice = $(this).val();
+
+                        // Verificar si el nuevo precio es menor que el precio anterior
+                        if (parseFloat(newPrice) < parseFloat(previousPrice)) {
+                            var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+                            if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
+                                // Calcular la nueva cantidad
+                                var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
+                                $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
+                            }
+                        }
+                        // Si el nuevo precio es mayor o igual que el precio anterior
+                        else {
+                            var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
+                            $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
+                        }
+                    });
                 }
             } catch (error) {
                 alert('Error al actualizar los campos del modal: ' + error.message);
@@ -267,19 +213,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     }
 });
 
-////////////////////////////////
-// Definir la variable previousPrice fuera del alcance de los eventos
-var previousPrice;
-
-// Capturar el evento mostrado del modal
-$('#quantityModal').on('shown.bs.modal', function () {
-    $('#quantityInput').attr('readonly', false);
-    $('#priceInput').attr('readonly', false);
-
-    // Llenar previousPrice solo cuando se muestra el modal
-    previousPrice = $('#priceInput').val();
-});
-
+////////////////////////////////////////////////////////////////////
 
 
 // Capturar el evento clic del botón "Agregar" en el formulario modal
