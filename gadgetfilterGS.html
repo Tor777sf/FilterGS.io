@@ -209,8 +209,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
             // Actualizar campos del modal con datos de la fila
             try {
-                if (data.DESCRIPCION.toLowerCase() === '.p') {
-                    // Si la descripción es igual a '.p', establecer configuración especial
+                if (data.DESCRIPCION.toLowerCase() === 'xp') {
+                    // Si la descripción es igual a 'xp', establecer configuración especial
                     $('#descriptionInput').focus();
                     // Resto de la configuración para ítems con descripción '.p'
                     initialModalSettings = {
@@ -219,7 +219,7 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                         price: "0.00",
                     };
                 } else {
-                    // Si no contiene '.p', establecer la descripción y otros campos normalmente
+                    // Si no contiene 'xp', establecer la descripción y otros campos normalmente
                     // Asignar el valor de data.Total a la variable priceValue
                     let priceValue = data.Total;
 
@@ -229,8 +229,8 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     }
 
                     // Convertir el valor a un número flotante usando parseFloat
-                    //let price = parseFloat(priceValue);
-                    price = parseFloat(priceValue);
+                    let price = parseFloat(priceValue);
+                    //price = parseFloat(priceValue);
                     // Si no se puede convertir o el valor es NaN, establecer 'Precio no disponible'
                     if (isNaN(price)) {
                         price = 'Precio no disponible';
