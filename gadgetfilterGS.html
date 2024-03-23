@@ -140,7 +140,7 @@
 //}); 
 
   //////////////////////////////////////////////////////////////
-// Al hacer clic en algún item
+// // Al hacer clic en algún item
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -179,27 +179,29 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     $('#quantityInput').val("1");
                     $('#priceInput').val(price); // Usar el precio calculado anteriormente
 
-                    // Capturar el valor del precio antes de la edición
-                    var previousPrice = price;
+                    // Al mostrar el modal, capturar el valor del precio como previousPrice
+                    $('#quantityModal').on('show.bs.modal', function () {
+                        var previousPrice = price;
 
-                    // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
-                    $('#priceInput').change(function() {
-                        var newPrice = $(this).val();
+                        // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
+                        $('#priceInput').change(function() {
+                            var newPrice = $(this).val();
 
-                        // Verificar si el nuevo precio es menor que el precio anterior
-                        if (parseFloat(newPrice) < parseFloat(previousPrice)) {
-                            var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-                            if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
-                                // Calcular la nueva cantidad
-                                var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
+                            // Verificar si el nuevo precio es menor que el precio anterior
+                            if (parseFloat(newPrice) < parseFloat(previousPrice)) {
+                                var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+                                if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
+                                    // Calcular la nueva cantidad
+                                    var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
+                                    $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
+                                }
+                            }
+                            // Si el nuevo precio es mayor o igual que el precio anterior
+                            else {
+                                var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
                                 $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
                             }
-                        }
-                        // Si el nuevo precio es mayor o igual que el precio anterior
-                        else {
-                            var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
-                            $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
-                        }
+                        });
                     });
                 }
             } catch (error) {
