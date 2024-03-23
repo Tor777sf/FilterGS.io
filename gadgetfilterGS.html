@@ -141,6 +141,10 @@
 
   //////////////////////////////////////////////////////////////
 // // Al hacer clic en algún item
+// Declarar previousPrice como variable global
+var previousPrice;
+
+// Al hacer clic en algún item
 $('#myDataTable tbody').on('click', 'tr', function () {
     try {
         var data = dataTable.row(this).data(); // Obtener datos de la fila clicada
@@ -181,27 +185,27 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
                     // Al mostrar el modal, capturar el valor del precio como previousPrice
                     $('#quantityModal').on('show.bs.modal', function () {
-                        var previousPrice = price;
+                        previousPrice = price;
+                    });
 
-                        // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
-                        $('#priceInput').change(function() {
-                            var newPrice = $(this).val();
+                    // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
+                    $('#priceInput').change(function() {
+                        var newPrice = $(this).val();
 
-                            // Verificar si el nuevo precio es menor que el precio anterior
-                            if (parseFloat(newPrice) < parseFloat(previousPrice)) {
-                                var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-                                if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
-                                    // Calcular la nueva cantidad
-                                    var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
-                                    $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
-                                }
-                            }
-                            // Si el nuevo precio es mayor o igual que el precio anterior
-                            else {
-                                var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
+                        // Verificar si el nuevo precio es menor que el precio anterior
+                        if (parseFloat(newPrice) < parseFloat(previousPrice)) {
+                            var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
+                            if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
+                                // Calcular la nueva cantidad
+                                var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
                                 $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
                             }
-                        });
+                        }
+                        // Si el nuevo precio es mayor o igual que el precio anterior
+                        else {
+                            var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
+                            $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
+                        }
                     });
                 }
             } catch (error) {
@@ -215,14 +219,12 @@ $('#myDataTable tbody').on('click', 'tr', function () {
     }
 });
 
-////////////////////////////////////////////////////////////////////
-
-
 // Capturar el evento clic del botón "Agregar" en el formulario modal
 $('#addQuantityBtn').off('click').on('click', function () {
     try {
         var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
         var price = previousPrice; // Obtener el precio
+
         if (!quantity || isNaN(quantity) || quantity <= 0) {
              quantity = 0;
          }
@@ -250,7 +252,7 @@ $('#addQuantityBtn').off('click').on('click', function () {
         alert('Error al agregar la cantidad: ' + error.message);
     }
 });
-
+/////////////////////////////////////////////
 //:: fin Agregar evento clic para generar lista de compra
         
 // .
