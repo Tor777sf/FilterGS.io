@@ -140,7 +140,6 @@
 //}); 
 
   //////////////////////////////////////////////////////////////
-// // Al hacer clic en algún item
 // Declarar previousPrice como variable global
 var previousPrice;
 
@@ -151,9 +150,6 @@ $('#myDataTable tbody').on('click', 'tr', function () {
 
         // Verificar si la descripción del producto está definida
         if (data && data.DESCRIPCION) {
-            // Mostrar el formulario modal
-            $('#quantityModal').modal('show');
-
             // Actualizar campos del modal con datos de la fila
             try {
                 if (data.DESCRIPCION.toLowerCase() === 'xp') {
@@ -184,28 +180,12 @@ $('#myDataTable tbody').on('click', 'tr', function () {
                     $('#priceInput').val(price); // Usar el precio calculado anteriormente
 
                     // Al mostrar el modal, capturar el valor del precio como previousPrice
-                    $('#quantityModal').on('show.bs.modal', function () {
-                        previousPrice = price;
-                    });
+                    previousPrice = price;
+                    $('#quantityModal').modal('show');
 
                     // Al perder el enfoque del campo de precio, verificar y ajustar la cantidad si es necesario
                     $('#priceInput').change(function() {
-                        var newPrice = $(this).val();
-
-                        // Verificar si el nuevo precio es menor que el precio anterior
-                        if (parseFloat(newPrice) < parseFloat(previousPrice)) {
-                            var quantity = $('#quantityInput').val(); // Obtener la cantidad ingresada
-                            if (quantity && !isNaN(quantity) && parseFloat(quantity) > 0) {
-                                // Calcular la nueva cantidad
-                                var newQuantity = (parseFloat(quantity) / parseFloat(previousPrice)) * parseFloat(newPrice);
-                                $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
-                            }
-                        }
-                        // Si el nuevo precio es mayor o igual que el precio anterior
-                        else {
-                            var newQuantity = parseFloat(newPrice) / parseFloat(previousPrice);
-                            $('#quantityInput').val(newQuantity.toFixed(6)); // Actualizar el campo de cantidad
-                        }
+                        // Código de ajuste de cantidad
                     });
                 }
             } catch (error) {
@@ -252,6 +232,7 @@ $('#addQuantityBtn').off('click').on('click', function () {
         alert('Error al agregar la cantidad: ' + error.message);
     }
 });
+
 /////////////////////////////////////////////
 //:: fin Agregar evento clic para generar lista de compra
         
